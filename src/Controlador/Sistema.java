@@ -19,4 +19,18 @@ public class Sistema {
     private ArrayList<Financiacion> finan = new ArrayList();
     private ArrayList<Certificado> certificados = new ArrayList();
     
+    public void crearEmpresa(Integer cuit, String nombre, String direccion, String repreLegal, String repreTecnico){
+        if(existenciaEmpresa(cuit) != true){
+               Empresa obj = new Empresa(cuit, nombre, direccion, repreLegal, repreTecnico);
+               empresas.add(obj);
+        }
+    }
+    private boolean existenciaEmpresa(Integer cuit){ //verifica si existe una empresa o no.
+        boolean existencia = false;
+        for(Empresa p : empresas){
+            if((p.getCuit()) == cuit) existencia = true;                  
+        }
+        return existencia;
+    }
+    
 }
