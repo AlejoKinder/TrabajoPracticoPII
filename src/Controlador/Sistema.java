@@ -23,7 +23,7 @@ public class Sistema {
         if(existenciaEmpresa(cuit) != true){
                Empresa obj = new Empresa(cuit, nombre, direccion, repreLegal, repreTecnico);
                empresas.add(obj);
-        }else System.out.println("NUMERO DE CUIT YA REGISTRADO!...");
+        }else System.out.println("NUMERO DE CUIT: " + cuit + ", YA REGISTRADO!...");
     }
     
     public void getEmpresas(){

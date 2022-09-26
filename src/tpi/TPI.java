@@ -21,6 +21,7 @@ public class tpi {
         controlador.crearEmpresa(24, "Iproda", "Junin 276", "Gustavo lopez", "Alejo Quinder");
         controlador.crearEmpresa(25, "ugd", "Juretch", "pereyra alegandro", "miuricio velasques");
         
+        controlador.getEmpresas();
     }
     
 }
