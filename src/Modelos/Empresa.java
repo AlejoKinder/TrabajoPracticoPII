@@ -12,8 +12,7 @@ import java.util.ArrayList;
  */
 public class Empresa {
     private Integer cuit;
-    private String nombre, direccion, repreLegal, repreTecnico;
-    private ArrayList<Obra> obrasEmpresa = new ArrayList();
+    private String nombre, direccion, repreLegal, repreTecnico;    
 
     public Empresa(Integer cuit, String nombre, String direccion, String repreLegal, String repreTecnico) { //Contructor que crea la empresa sin pasarle obras.
         this.cuit = cuit;

@@ -26,18 +26,27 @@ public class Sistema {
         }else System.out.println("NUMERO DE CUIT: " + cuit + ", YA REGISTRADO!...");
     }
     
+    public void crearFinanciacion(Integer id, String nombre){
+        
+    }
+    
     public void getEmpresas(){
         for(Empresa p : empresas){
             System.out.println(p.getCuit() + " " + p.getNombre() + " " + p.getDireccion() + " " + p.getRepreLegal() + " " + p.getRepreTecnico());
         }
-    }
-            
-    
-    
+    }       
+     
     private boolean existenciaEmpresa(Integer cuit){ //verifica si existe una empresa o no.
         boolean existencia = false;
         for(Empresa p : empresas){
             if((p.getCuit()) == cuit) existencia = true;                  
+        }
+        return existencia;
+    }
+    private boolean existenciaFinanciacion(String nombre){ //verifica si existe una empresa o no.
+        boolean existencia = false;
+        for(Financiacion p : finan){
+            //if((p.getNombre()).equals(nombre)) existencia = true;                  
         }
         return existencia;
     }

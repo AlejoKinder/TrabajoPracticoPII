@@ -22,6 +22,8 @@ public class tpi {
         controlador.crearEmpresa(25, "ugd", "Juretch", "pereyra alegandro", "miuricio velasques");
         
         controlador.getEmpresas();
+        
+        
     }
     
 }
