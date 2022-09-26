@@ -23,8 +23,17 @@ public class Sistema {
         if(existenciaEmpresa(cuit) != true){
                Empresa obj = new Empresa(cuit, nombre, direccion, repreLegal, repreTecnico);
                empresas.add(obj);
+        }else System.out.println("NUMERO DE CUIT YA REGISTRADO!...");
+    }
+    
+    public void getEmpresas(){
+        for(Empresa p : empresas){
+            System.out.println(p.getCuit() + " " + p.getNombre() + " " + p.getDireccion() + " " + p.getRepreLegal() + " " + p.getRepreTecnico());
         }
     }
+            
+    
+    
     private boolean existenciaEmpresa(Integer cuit){ //verifica si existe una empresa o no.
         boolean existencia = false;
         for(Empresa p : empresas){
