@@ -5,7 +5,7 @@
 package Modelos;
 
 /**
- *
+ *hola soy cele
  * @author alejo
  */
 public class Certificado {
