@@ -28,7 +28,7 @@ public class Sistema {
     }
     
     public void crearFinanciacion(Integer id, String nombre){
-        int b;
+        int b = 280;
     }
     
     
