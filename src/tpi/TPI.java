@@ -9,7 +9,7 @@ import Controlador.*;
  * Prueba de la prueba
  * @author alejo
  */
-public class tpi {
+public class TPI {
 
     /**
      * @param args the command line arguments
@@ -21,9 +21,15 @@ public class tpi {
         controlador.crearEmpresa(24, "Iproda", "Junin 276", "Gustavo lopez", "Alejo Quinder");
         controlador.crearEmpresa(25, "ugd", "Juretch", "pereyra alegandro", "miuricio velasques");
         
-        controlador.getEmpresas();
+        //controlador.getEmpresas();
         
+        controlador.crearFinanciacion("Unicef");
+        controlador.crearFinanciacion("NOse");
+        controlador.crearFinanciacion("Aguante quique");
+        controlador.crearFinanciacion("PAII");
+        controlador.crearFinanciacion("Youtube");
         
+        controlador.getFinanciaciones();
     }
     
 }
