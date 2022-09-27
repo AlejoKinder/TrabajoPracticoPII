@@ -28,8 +28,10 @@ public class Sistema {
     }
     
     public void crearFinanciacion(Integer id, String nombre){
-        
+        int a;
     }
+    
+    
     
     public void getEmpresas(){
         for(Empresa p : empresas){
