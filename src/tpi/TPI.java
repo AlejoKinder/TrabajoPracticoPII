@@ -6,7 +6,7 @@ package tpi;
 import Controlador.*;
 
 /**
- *
+ * Prueba de la prueba
  * @author alejo
  */
 public class tpi {
