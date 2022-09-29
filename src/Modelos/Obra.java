@@ -18,8 +18,8 @@ public class Obra {
     private float porc_utilidad;
     private float porc_IVA_vivienda;
     private float porc_IVA_infraestructura;
-    private Financiacion finac;
-    private ArrayList<Empresa> empresasObra = new ArrayList();
+    private Empresa empr;
+    private Financiacion fin;
 
     public Obra(Integer id_Obra, String nombre, float porc_flete, float porc_gastos, float porc_utilidad, float porc_IVA_vivienda, float porc_IVA_infraestructura, Empresa em, Financiacion finan) {
         this.id_Obra = id_Obra;
@@ -29,6 +29,8 @@ public class Obra {
         this.porc_utilidad = porc_utilidad;
         this.porc_IVA_vivienda = porc_IVA_vivienda;
         this.porc_IVA_infraestructura = porc_IVA_infraestructura;
+        this.empr = em;
+        this.fin = finan;
     }
 
     public Integer getId_Obra() {
