@@ -12,7 +12,9 @@ import java.util.ArrayList;
  */
 public class Empresa {
     private Integer cuit;
-    private String nombre, direccion, repreLegal, repreTecnico;    
+    private String nombre, direccion, repreLegal, repreTecnico;
+    private Empresa empr;
+    private Financiacion fin;
 
     public Empresa(Integer cuit, String nombre, String direccion, String repreLegal, String repreTecnico) { //Contructor que crea la empresa sin pasarle obras.
         this.cuit = cuit;
@@ -20,6 +22,8 @@ public class Empresa {
         this.direccion = direccion;
         this.repreLegal = repreLegal;
         this.repreTecnico = repreTecnico;
+        this.empr = em;
+        this.fin = finan;
     }
     
     public Integer getCuit() {

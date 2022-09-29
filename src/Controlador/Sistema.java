@@ -36,6 +36,13 @@ public class Sistema {
         }
     }
     
+    public void crearObra(Integer id_Obra, String nombre, float porc_flete, float porc_gastos, float porc_utilidad, float porc_IVA_vivienda, float porc_IVA_infraestructura, String nombre_finan, Integer cuitEmpresa){
+        Empresa em = buscarEmpresa(cuitEmpresa);
+        Financiacion finan = buscarFinanciacion (nombre_finan);
+        Obra ob = new Obra(id_Obra, nombre, porc_flete, porc_gastos, porc_utilidad, porc_IVA_vivienda, porc_IVA_infraestructura, em, finan);
+        
+    }
+    
     public void getFinanciaciones(){
         for(Financiacion p : finan){
             System.out.println(p.getId() + " " + p.getNombre());
@@ -58,6 +65,14 @@ public class Sistema {
         }        
     }
      
+    private Empresa buscarEmpresa(Integer cuit){ //verifica si existe una empresa o no.
+        boolean existencia = false;
+        for(Empresa p : empresas){
+            if(((p.getCuit()).equals(cuit))) return p; 
+        }
+        return null;
+    }
+    
     private boolean existenciaEmpresa(Integer cuit){ //verifica si existe una empresa o no.
         boolean existencia = false;
         for(Empresa p : empresas){
@@ -71,6 +86,13 @@ public class Sistema {
             if((p.getNombre()).equals(nombre)) existencia = true;                  
         }
         return existencia;
+    }
+    
+    private Financiacion buscarFinanciacion(String nombre){ //verifica si existe una empresa o no.
+        for(Financiacion p : finan){
+            if((p.getNombre()).equals(nombre)) return p;                 
+        }
+        return null;
     }
     
 }

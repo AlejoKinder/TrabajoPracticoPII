@@ -30,6 +30,8 @@ public class TPI {
         controlador.crearFinanciacion("Youtube");
         
         controlador.getFinanciaciones();
+        
+        
     }
     
 }

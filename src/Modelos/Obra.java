@@ -21,7 +21,7 @@ public class Obra {
     private Financiacion finac;
     private ArrayList<Empresa> empresasObra = new ArrayList();
 
-    public Obra(Integer id_Obra, String nombre, float porc_flete, float porc_gastos, float porc_utilidad, float porc_IVA_vivienda, float porc_IVA_infraestructura) {
+    public Obra(Integer id_Obra, String nombre, float porc_flete, float porc_gastos, float porc_utilidad, float porc_IVA_vivienda, float porc_IVA_infraestructura, Empresa em, Financiacion finan) {
         this.id_Obra = id_Obra;
         this.nombre = nombre;
         this.porc_flete = porc_flete;
