@@ -29,9 +29,19 @@ public class TPI {
         controlador.crearFinanciacion("PAII");
         controlador.crearFinanciacion("Youtube");
         
-        controlador.getFinanciaciones();
+        //controlador.getFinanciaciones();
         
+        controlador.crearObra("101 viviendas", 10, 11, 3, 21, 25, "Aguante quique", 23);
+        controlador.crearItemObra("pared", 2, 1);
+        controlador.crearItemObra("techo", 1, 1);
+        controlador.crearItemObra("vidrio", 2, 1);
+        controlador.crearItemObra("puerta", 2, 1);
         
+        controlador.crearObra("200 viviendas", 10, 13, 3, 21, 25, "PAII", 25);
+        controlador.crearItemObra("pared", 2, 2);
+        controlador.crearItemObra("pared", 2, 2);
+        
+        controlador.getObrasEItems();
     }
     
 }

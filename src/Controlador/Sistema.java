@@ -30,17 +30,30 @@ public class Sistema {
     
     public void crearFinanciacion(String nombre){
         if ((existenciaFinanciacion(nombre)) != true){
-            Integer id = ultimoIdFinan() + 1;
-            Financiacion obj = new Financiacion(id, nombre);
+            Financiacion obj = new Financiacion(ultimoIdFinan() + 1, nombre);
             finan.add(obj);
-        }
+        }else System.out.printfln("NOMBRE DE FINANCIACION YA EXISTENTE!...");
     }
     
-    public void crearObra(Integer id_Obra, String nombre, float porc_flete, float porc_gastos, float porc_utilidad, float porc_IVA_vivienda, float porc_IVA_infraestructura, String nombre_finan, Integer cuitEmpresa){
+    public void crearObra(String nombre, float porc_flete, float porc_gastos, float porc_utilidad, float porc_IVA_vivienda, float porc_IVA_infraestructura, String nombre_finan, Integer cuitEmpresa){
         Empresa em = buscarEmpresa(cuitEmpresa);
         Financiacion finan = buscarFinanciacion (nombre_finan);
-        Obra ob = new Obra(id_Obra, nombre, porc_flete, porc_gastos, porc_utilidad, porc_IVA_vivienda, porc_IVA_infraestructura, em, finan);
-        
+        Obra ob = new Obra(ultimaObra() + 1, nombre, porc_flete, porc_gastos, porc_utilidad, porc_IVA_vivienda, porc_IVA_infraestructura, em, finan);
+        obras.add(ob);
+    }
+    
+    public void crearItemObra(String denominacion, int tipo, Integer idObra){
+        Obra obr = buscarObra(idObra);
+        obr.agregarItem(denominacion, tipo);        
+    }
+    
+    public void crearCostoItem()
+    
+    public void getObrasEItems(){
+        for(Obra p : obras){
+            System.out.println(p.getId_Obra() + " " + p.getNombre() + " ");
+            p.getItems();
+        }
     }
     
     public void getFinanciaciones(){
@@ -54,6 +67,23 @@ public class Sistema {
             System.out.println(p.getCuit() + " " + p.getNombre() + " " + p.getDireccion() + " " + p.getRepreLegal() + " " + p.getRepreTecnico());
         }
     }     
+    
+    private int ultimaObra(){ //busca la ultima obra para hacer autoincremental el id obra.
+        int ultimo = obras.size() - 1;
+        if (ultimo >= 0) {
+            Obra ultimoObj = obras.get(ultimo);
+            return ultimoObj.getId_Obra();
+        }else{
+            return 0;
+        }
+    }
+    
+    private Obra buscarObra(Integer id){
+        for(Obra p : obras){
+            if((p.getId_Obra()).equals(id)) return p;
+        }
+        return null;
+    }
     
     private Integer ultimoIdFinan(){ //busca el ultimo id de financiacion para sumarle 1 y asignarle eso al proximo financiacion a insertar       
         int ultimo = finan.size() - 1;

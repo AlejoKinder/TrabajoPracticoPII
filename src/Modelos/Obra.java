@@ -3,8 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Modelos;
-
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  *
@@ -20,7 +19,8 @@ public class Obra {
     private float porc_IVA_infraestructura;
     private Empresa empr;
     private Financiacion fin;
-
+    private ArrayList<Item> items = new ArrayList();
+    
     public Obra(Integer id_Obra, String nombre, float porc_flete, float porc_gastos, float porc_utilidad, float porc_IVA_vivienda, float porc_IVA_infraestructura, Empresa em, Financiacion finan) {
         this.id_Obra = id_Obra;
         this.nombre = nombre;
@@ -31,6 +31,17 @@ public class Obra {
         this.porc_IVA_infraestructura = porc_IVA_infraestructura;
         this.empr = em;
         this.fin = finan;
+    }
+    
+    public void agregarItem(String denominacion, int tipo){
+        if(cantItems() < 30){
+            Item it = new Item(cantItems() + 2, denominacion, tipo);
+            items.add(it);
+        }else System.out.println("NO SE PUEDE INSERTAR ITEM PORQUE YA ALCANZO EL MAXIMO DE 30 POR OBRA!...");            
+    }
+    
+    public void getItems(){
+        for(Item a : items) System.out.println (a.getId_item() + " " + a.getDenominacion() + " " + a.getTipo());
     }
 
     public Integer getId_Obra() {
@@ -61,5 +72,8 @@ public class Obra {
         return porc_IVA_infraestructura;
     }
     
-    
+    public int cantItems(){ //trae la cantidad de items que tiene la coleccion de items.
+        int retorno = items.size() - 1;
+        return retorno;
+    }
 }
