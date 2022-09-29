@@ -32,7 +32,7 @@ public class Sistema {
         if ((existenciaFinanciacion(nombre)) != true){
             Financiacion obj = new Financiacion(ultimoIdFinan() + 1, nombre);
             finan.add(obj);
-        }else System.out.printfln("NOMBRE DE FINANCIACION YA EXISTENTE!...");
+        }else System.out.println("NOMBRE DE FINANCIACION YA EXISTENTE!...");
     }
     
     public void crearObra(String nombre, float porc_flete, float porc_gastos, float porc_utilidad, float porc_IVA_vivienda, float porc_IVA_infraestructura, String nombre_finan, Integer cuitEmpresa){
@@ -47,12 +47,15 @@ public class Sistema {
         obr.agregarItem(denominacion, tipo);        
     }
     
-    public void crearCostoItem()
-    
+    public void crearCostoItem(double monto, Integer inicio_periodo_vigencia, Integer idObra, Integer idItem){
+        Obra obr = buscarObra(idObra);
+        obr.agregarCosto(monto, inicio_periodo_vigencia, idItem);
+    }
+   
     public void getObrasEItems(){
         for(Obra p : obras){
             System.out.println(p.getId_Obra() + " " + p.getNombre() + " ");
-            p.getItems();
+            p.getItems();            
         }
     }
     

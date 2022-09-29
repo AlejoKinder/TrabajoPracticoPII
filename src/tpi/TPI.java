@@ -41,6 +41,15 @@ public class TPI {
         controlador.crearItemObra("pared", 2, 2);
         controlador.crearItemObra("pared", 2, 2);
         
+        //controlador.getObrasEItems();
+        
+        controlador.crearCostoItem(2300.6, 234, 2, 1);
+        controlador.crearCostoItem(4000, 234, 2, 1);
+        controlador.crearCostoItem(4351.3, 234, 2, 1);
+        
+        controlador.crearCostoItem(1000, 500, 1, 4);
+        controlador.crearCostoItem(1200, 234, 1, 4);
+        
         controlador.getObrasEItems();
     }
     

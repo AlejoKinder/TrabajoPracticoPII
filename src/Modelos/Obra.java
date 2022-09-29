@@ -40,8 +40,23 @@ public class Obra {
         }else System.out.println("NO SE PUEDE INSERTAR ITEM PORQUE YA ALCANZO EL MAXIMO DE 30 POR OBRA!...");            
     }
     
+    public void agregarCosto(double monto, Integer inicio_periodo_vigencia, Integer idItem){
+        Item it = buscarItem(idItem);
+        it.crearCosto(monto, inicio_periodo_vigencia);
+    }
+    
+    private Item buscarItem(Integer id){
+        for(Item p : items){
+            if((p.getId_item()).equals(id)) return p;
+        }    
+        return null;
+    }
+
     public void getItems(){
-        for(Item a : items) System.out.println (a.getId_item() + " " + a.getDenominacion() + " " + a.getTipo());
+        for(Item a : items){
+            System.out.println(a.getId_item() + " " + a.getDenominacion() + " " + a.getTipo());
+            a.getUltimoCosto();
+        }
     }
 
     public Integer getId_Obra() {
