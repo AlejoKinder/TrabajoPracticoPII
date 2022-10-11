@@ -4,6 +4,8 @@
  */
 package Modelos;
 
+import java.util.*;
+
 /**
  *
  * @author alejo
@@ -11,16 +13,17 @@ package Modelos;
 public class Foja_Medicion {
     private Integer id_foja;
     private String fecha_de_creacion;
-    private Obra obras;
+    private Obra obra;
     private Certificado certificados;
     private String descripcion;
     private float avancAnt, avacMes, avancAcumulado;
     private Certificado cert;
+    private ArrayList<Renglon_Foja> vRenglones = new ArrayList();
 
     public Foja_Medicion(Integer id_foja, String fecha_de_creacion, Obra obras, String descrp, float avancAnt, float avacMes, float avancAcumulado) {
         this.id_foja = id_foja;
         this.fecha_de_creacion = fecha_de_creacion;
-        this.obras = obras;
+        this.obra = obras;
         this.descripcion = descrp;
         this.avancAnt = avancAnt;
         this.avacMes = avacMes;
@@ -31,73 +34,65 @@ public class Foja_Medicion {
         return id_foja;
     }
 
-    public void setId_foja(Integer id_foja) {
-        this.id_foja = id_foja;
-    }
-
     public String getFecha_de_creacion() {
         return fecha_de_creacion;
     }
 
-    public void setFecha_de_creacion(String fecha_de_creacion) {
-        this.fecha_de_creacion = fecha_de_creacion;
-    }
-
-    public Obra getObras() {
-        return obras;
-    }
-
-    public void setObras(Obra obras) {
-        this.obras = obras;
+    public Obra getObra() {
+        return obra;
     }
 
     public Certificado getCertificados() {
         return certificados;
     }
 
-    public void setCertificados(Certificado certificados) {
-        this.certificados = certificados;
-    }
-
-    public String getDescrp() {
+    public String getDescripcion() {
         return descripcion;
-    }
-
-    public void setDescrp(String descrp) {
-        this.descripcion = descrp;
     }
 
     public float getAvancAnt() {
         return avancAnt;
     }
 
-    public void setAvancAnt(float avancAnt) {
-        this.avancAnt = avancAnt;
-    }
-
     public float getAvacMes() {
         return avacMes;
-    }
-
-    public void setAvacMes(float avacMes) {
-        this.avacMes = avacMes;
     }
 
     public float getAvancAcumulado() {
         return avancAcumulado;
     }
 
-    public void setAvancAcumulado(float avancAcumulado) {
-        this.avancAcumulado = avancAcumulado;
+    public Certificado getCert() {
+        return cert;
+    }
+
+    public ArrayList<Renglon_Foja> getvRenglones() {
+        return vRenglones;
     }
     
+    
+   
     //--------------------------------------------------------------------------
     
     public void CrearRenglonesFoja() {
     
+        Foja_Medicion vUltimaFoja = obra.DevolverUltimaFoja();
+        ArrayList<Renglon_Foja> vRenglonesUltimaFoja = new ArrayList();
+        if (vUltimaFoja != null){
+            vRenglonesUltimaFoja = vUltimaFoja.getvRenglones()
+        }
         
+        ArrayList<Item> vItems = new ArrayList();
+        vItems = obra.getItems();
+        
+        for (Item i: vItems){
+            if (vUltimaFoja == null){
+                Renglon_Foja vNuevoRenglon = new Renglon_Foja((vRenglones.size()+1), 0, i);
+            } else {
+                Renglon_Foja vNuevoRenglon = new Renglon_Foja((vRenglones.size()+1), (vRenglonesUltimaFoja.get((vRenglones.size()+1)).getPorc_acumulada(), i);
+            }
+            
+            vRenglones.add(vNuevoRenglon);
+        }
     
     }
-    
-        
-}
