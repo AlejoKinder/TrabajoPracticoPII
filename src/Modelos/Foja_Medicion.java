@@ -91,7 +91,6 @@ public class Foja_Medicion {
         this.avancAcumulado = avancAcumulado;
     }
     
-    public 
     
         
 }
