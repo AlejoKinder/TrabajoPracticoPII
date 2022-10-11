@@ -99,6 +99,17 @@ public class Sistema {
         }
     }     
     
+    //--Financiacion-------------------------------------------------------------------------------------------------
+    
+    public void crearFoja(Integer fecha_de_creacion, Integer idObra, String descrp, float avancAnt, float avacMes, float avancAcumulado){
+        Obra ob = buscarObra(idObra);
+        
+        if(ob != null){
+            Foja_Medicion foja = new Foja_Medicion((fojas.size() + 1), fecha_de_creacion, ob, descrp, avancAnt, avacMes, avancAcumulado);
+            System.out.println("Nro Foja: " + (fojas.size() + 1)); //prueba de autoincrementacion.
+            fojas.add(foja);
+        }else System.out.println("OBRA NO EXISTENTE!...");
+    }
     
     //--Financiacion-------------------------------------------------------------------------------------------------
     

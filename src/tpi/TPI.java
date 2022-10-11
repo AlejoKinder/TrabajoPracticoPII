@@ -50,7 +50,9 @@ public class TPI {
         controlador.crearCostoItem(1000, 500, 1, 4);
         controlador.crearCostoItem(1200, 234, 1, 4);
         
-        controlador.getObrasEItems();
+        //controlador.getObrasEItems();
+        
+        controlador.crearFoja()
     }
     
 }
