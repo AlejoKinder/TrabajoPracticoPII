@@ -52,7 +52,8 @@ public class TPI {
         
         //controlador.getObrasEItems();
         
-        controlador.crearFoja()
+        controlador.crearFoja("12/03/22", 1, "110viviendas", 12, 33, 19);
+        controlador.crearCertificado("12/03/22", 10000, 1);
     }
     
 }

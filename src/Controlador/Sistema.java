@@ -33,6 +33,34 @@ public class Sistema {
         obr.agregarCosto(monto, inicio_periodo_vigencia, idItem);
     }
     
+    //--Certificado-------------------------------------------------------------------------------------------------
+    
+    public void crearCertificado(String fecha_de_creacion, double importe_total, Integer idFoja){
+        Foja_Medicion foja = buscarFoja(idFoja);
+        
+        if(foja != null){
+            Certificado cert = new Certificado(certificados.size() + 1, fecha_de_creacion, false, importe_total, foja);
+            certificados.add(cert);
+        }else System.out.println("FOJA NO EXISTENTE!...");
+    }
+    
+    public void crearRenglonCertificado(double importe_parcial, String denominacion, float porcentaje_Avance, Integer idCert){
+        Certificado cert = buscarCertificado(idCert);
+        
+        if(cert != null){
+            cert.crearConcepto(importe_parcial, denominacion, porcentaje_Avance);
+        }System.out.println("CERTIFICADO NO EXISTENTE!...");
+    }
+    
+    private Certificado buscarCertificado(Integer id){
+        for(Certificado p : certificados){
+            if(Objects.equals(p.getId_certificado(), id)){
+                return p;
+            }
+        }
+        
+        return null;
+    }
     
     //--Obra-------------------------------------------------------------------------------------------------
     
@@ -99,9 +127,9 @@ public class Sistema {
         }
     }     
     
-    //--Financiacion-------------------------------------------------------------------------------------------------
+    //--Foja-------------------------------------------------------------------------------------------------
     
-    public void crearFoja(Integer fecha_de_creacion, Integer idObra, String descrp, float avancAnt, float avacMes, float avancAcumulado){
+    public void crearFoja(String fecha_de_creacion, Integer idObra, String descrp, float avancAnt, float avacMes, float avancAcumulado){
         Obra ob = buscarObra(idObra);
         
         if(ob != null){
@@ -109,6 +137,17 @@ public class Sistema {
             System.out.println("Nro Foja: " + (fojas.size() + 1)); //prueba de autoincrementacion.
             fojas.add(foja);
         }else System.out.println("OBRA NO EXISTENTE!...");
+    }
+    
+    private Foja_Medicion buscarFoja(Integer id){
+        for(Foja_Medicion p : fojas){
+            if(Objects.equals(p.getId_foja(), id)){
+                
+                return p;
+            }
+        }
+        System.out.println("Holandaaaa");
+        return null;
     }
     
     //--Financiacion-------------------------------------------------------------------------------------------------
