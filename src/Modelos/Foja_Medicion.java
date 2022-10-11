@@ -91,7 +91,13 @@ public class Foja_Medicion {
         this.avancAcumulado = avancAcumulado;
     }
     
-    public 
+    //--------------------------------------------------------------------------
+    
+    public void CrearRenglonesFoja() {
+    
+        
+    
+    }
     
         
 }

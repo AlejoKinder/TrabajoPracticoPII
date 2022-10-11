@@ -4,6 +4,7 @@
  */
 package Modelos;
 import java.util.*;
+import FuncionesIlegales.*;
 
 /**
  *
@@ -18,8 +19,9 @@ public class Obra {
     private float porc_IVA_vivienda;
     private float porc_IVA_infraestructura;
     private Empresa empr;
-    private Financiacion fin;
+    private Financiacion finan;
     private ArrayList<Item> items = new ArrayList();
+    private ArrayList<Foja_Medicion> vFojas = new ArrayList();
     
     public Obra(Integer id_Obra, String nombre, float porc_flete, float porc_gastos, float porc_utilidad, float porc_IVA_vivienda, float porc_IVA_infraestructura, Empresa em, Financiacion finan) {
         this.id_Obra = id_Obra;
@@ -30,17 +32,22 @@ public class Obra {
         this.porc_IVA_vivienda = porc_IVA_vivienda;
         this.porc_IVA_infraestructura = porc_IVA_infraestructura;
         this.empr = em;
-        this.fin = finan;
+        this.finan = finan;
     }
     
-    public void agregarItem(String denominacion, int tipo){
-        if(cantItems() < 30){
-            Item it = new Item(cantItems() + 2, denominacion, tipo);
-            items.add(it);
-        }else System.out.println("NO SE PUEDE INSERTAR ITEM PORQUE YA ALCANZO EL MAXIMO DE 30 POR OBRA!...");            
+    metodos vMet = new metodos();
+    
+    public void AgregarItem(Item vNuevoItem) throws Exception {
+        if(items.size() < 30){
+            items.add(vNuevoItem);
+        }else {
+            throw new Exception ("No se pueden agregar mas de 30 renglones en una obra");
+        }
     }
     
-    public void agregarCosto(double monto, Integer inicio_periodo_vigencia, Integer idItem){
+    // Agregar exception de "Si no existe item"
+    
+    public void agregarCostoItem(double monto, Integer inicio_periodo_vigencia, Integer idItem){
         Item it = buscarItem(idItem);
         it.crearCosto(monto, inicio_periodo_vigencia);
     }
@@ -52,11 +59,34 @@ public class Obra {
         return null;
     }
 
-    public void getItems(){
-        for(Item a : items){
-            System.out.println(a.getId_item() + " " + a.getDenominacion() + " " + a.getTipo());
-            a.getUltimoCosto();
+    //--------------------------------------------------------------------------
+    
+    public Foja_Medicion DevolverUltimaFoja() throws Exception {
+        if (vFojas.size() == 0) {
+            return null;
+        }else{
+            Foja_Medicion vUltimaFoja = null;
+            Integer vUltimaFecha[] = new Integer [3];
+            
+            for (Foja_Medicion f: vFojas) {
+                if (vUltimaFoja == null){
+                    vUltimaFoja = f;
+                }else{
+                    vUltimaFecha = vMet.DevolverFechaMayor(vUltimaFoja.getFecha_de_creacion(), f.getFecha_de_creacion());
+                    
+                    if (vUltimaFecha == vMet.TransformarFecha(f.getFecha_de_creacion())){
+                        vUltimaFoja = f;
+                    }
+                }
+            }
+            return vUltimaFoja;
         }
+    }
+    
+    //--------------------------------------------------------------------------
+    
+    public ArrayList<Item> getItems() {
+        return items;
     }
 
     public Integer getId_Obra() {
@@ -87,8 +117,4 @@ public class Obra {
         return porc_IVA_infraestructura;
     }
     
-    public int cantItems(){ //trae la cantidad de items que tiene la coleccion de items.
-        int retorno = items.size() - 1;
-        return retorno;
-    }
 }
