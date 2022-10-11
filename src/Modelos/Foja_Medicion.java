@@ -10,18 +10,18 @@ package Modelos;
  */
 public class Foja_Medicion {
     private Integer id_foja;
-    private Integer fecha_de_creacion;
+    private String fecha_de_creacion;
     private Obra obras;
     private Certificado certificados;
-    private String descrp;
+    private String descripcion;
     private float avancAnt, avacMes, avancAcumulado;
     private Certificado cert;
 
-    public Foja_Medicion(Integer id_foja, Integer fecha_de_creacion, Obra obras, String descrp, float avancAnt, float avacMes, float avancAcumulado) {
+    public Foja_Medicion(Integer id_foja, String fecha_de_creacion, Obra obras, String descrp, float avancAnt, float avacMes, float avancAcumulado) {
         this.id_foja = id_foja;
         this.fecha_de_creacion = fecha_de_creacion;
         this.obras = obras;
-        this.descrp = descrp;
+        this.descripcion = descrp;
         this.avancAnt = avancAnt;
         this.avacMes = avacMes;
         this.avancAcumulado = avancAcumulado;
@@ -35,11 +35,11 @@ public class Foja_Medicion {
         this.id_foja = id_foja;
     }
 
-    public Integer getFecha_de_creacion() {
+    public String getFecha_de_creacion() {
         return fecha_de_creacion;
     }
 
-    public void setFecha_de_creacion(Integer fecha_de_creacion) {
+    public void setFecha_de_creacion(String fecha_de_creacion) {
         this.fecha_de_creacion = fecha_de_creacion;
     }
 
@@ -60,11 +60,11 @@ public class Foja_Medicion {
     }
 
     public String getDescrp() {
-        return descrp;
+        return descripcion;
     }
 
     public void setDescrp(String descrp) {
-        this.descrp = descrp;
+        this.descripcion = descrp;
     }
 
     public float getAvancAnt() {
@@ -90,6 +90,8 @@ public class Foja_Medicion {
     public void setAvancAcumulado(float avancAcumulado) {
         this.avancAcumulado = avancAcumulado;
     }
+    
+    public 
     
         
 }
