@@ -21,9 +21,10 @@ public class Sistema {
     
     //--ItemObra-------------------------------------------------------------------------------------------------
     
+    //Arreglar la creacion de items
     public void crearItemObra(String denominacion, int tipo, Integer idObra){
         Obra obr = buscarObra(idObra);
-        obr.agregarItem(denominacion, tipo);        
+        obr.AgregarItem(denominacion, tipo);        
     }
     
     
@@ -31,11 +32,13 @@ public class Sistema {
     
     public void crearCostoItem(double monto, Integer inicio_periodo_vigencia, Integer idObra, Integer idItem){
         Obra obr = buscarObra(idObra);
-        obr.agregarCosto(monto, inicio_periodo_vigencia, idItem);
+        obr.agregarCostoItem(monto, inicio_periodo_vigencia, idItem);
     }
     
     //--Certificado-------------------------------------------------------------------------------------------------
     
+    
+    //Va a tirar ERROR hasta que se arregle lo de foja
     public void crearCertificado(String fecha_de_creacion, double importe_total, Integer idFoja){
         Foja_Medicion foja = buscarFoja(idFoja);
         
@@ -130,26 +133,7 @@ public class Sistema {
     
     //--Foja-------------------------------------------------------------------------------------------------
     
-    public void crearFoja(String fecha_de_creacion, Integer idObra, String descrp, float avancAnt, float avacMes, float avancAcumulado){
-        Obra ob = buscarObra(idObra);
-        
-        if(ob != null){
-            Foja_Medicion foja = new Foja_Medicion((fojas.size() + 1), fecha_de_creacion, ob, descrp, avancAnt, avacMes, avancAcumulado);
-            System.out.println("Nro Foja: " + (fojas.size() + 1)); //prueba de autoincrementacion.
-            fojas.add(foja);
-        }else System.out.println("OBRA NO EXISTENTE!...");
-    }
-    
-    private Foja_Medicion buscarFoja(Integer id){
-        for(Foja_Medicion p : fojas){
-            if(Objects.equals(p.getId_foja(), id)){
-                
-                return p;
-            }
-        }
-        System.out.println("Holandaaaa");
-        return null;
-    }
+    //Voy a crear devuelta toda la creacion de foja y renglones de foja
     
     //--Financiacion-------------------------------------------------------------------------------------------------
     
