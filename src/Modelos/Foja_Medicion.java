@@ -86,10 +86,12 @@ public class Foja_Medicion {
         vItems = obra.getItems();
         
         for (Item i: vItems){
+            Renglon_Foja vNuevoRenglon = null;
+            
             if (vUltimaFoja == null){
-                Renglon_Foja vNuevoRenglon = new Renglon_Foja((vRenglones.size()+1), 0, i);
+                vNuevoRenglon = new Renglon_Foja((vRenglones.size()+1), 0, i);
             } else {
-                Renglon_Foja vNuevoRenglon = new Renglon_Foja((vRenglones.size()+1), (vRenglonesUltimaFoja.get((vRenglones.size()+1)).getPorc_acumulada(), i);
+                vNuevoRenglon = new Renglon_Foja((vRenglones.size()+1), (vRenglonesUltimaFoja.get((vRenglones.size()+1)).getPorc_acumulada(), i);
             }
             
             vRenglones.add(vNuevoRenglon);
