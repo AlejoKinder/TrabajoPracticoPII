@@ -11,90 +11,68 @@ import java.util.*;
  * @author alejo
  */
 public class Foja_Medicion {
-    private Integer id_foja;
-    private String fecha_de_creacion;
-    private Obra obra;
-    private Certificado certificados;
-    private String descripcion;
-    private float avancAnt, avacMes, avancAcumulado;
-    private Certificado cert;
+    
+    private Integer vIdFoja;
+    private String vFechaCreacion;
+    private String vDescripcion;
+    
+    private Obra vObra;
     private ArrayList<Renglon_Foja> vRenglones = new ArrayList();
+    
+    //--------------------------------------------------------------------------
 
-    public Foja_Medicion(Integer id_foja, String fecha_de_creacion, Obra obras, String descrp, float avancAnt, float avacMes, float avancAcumulado) {
-        this.id_foja = id_foja;
-        this.fecha_de_creacion = fecha_de_creacion;
-        this.obra = obras;
-        this.descripcion = descrp;
-        this.avancAnt = avancAnt;
-        this.avacMes = avacMes;
-        this.avancAcumulado = avancAcumulado;
+    public Foja_Medicion(Integer vIdFoja, String vFechaCreacion, String vDescripcion, Obra vObra) {
+        this.vIdFoja = vIdFoja;
+        this.vFechaCreacion = vFechaCreacion;
+        this.vDescripcion = vDescripcion;
+        this.vObra = vObra;
     }
 
-    public Integer getId_foja() {
-        return id_foja;
+    public Integer getvIdFoja() {
+        return vIdFoja;
     }
 
-    public String getFecha_de_creacion() {
-        return fecha_de_creacion;
+    public String getvFechaCreacion() {
+        return vFechaCreacion;
     }
 
-    public Obra getObra() {
-        return obra;
+    public String getvDescripcion() {
+        return vDescripcion;
     }
 
-    public Certificado getCertificados() {
-        return certificados;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public float getAvancAnt() {
-        return avancAnt;
-    }
-
-    public float getAvacMes() {
-        return avacMes;
-    }
-
-    public float getAvancAcumulado() {
-        return avancAcumulado;
-    }
-
-    public Certificado getCert() {
-        return cert;
+    public Obra getvObra() {
+        return vObra;
     }
 
     public ArrayList<Renglon_Foja> getvRenglones() {
         return vRenglones;
     }
     
-    
-   
     //--------------------------------------------------------------------------
     
     public void CrearRenglonesFoja() {
     
-        Foja_Medicion vUltimaFoja = obra.DevolverUltimaFoja();
+        Foja_Medicion vUltimaFoja = vObra.DevolverUltimaFoja();
         ArrayList<Renglon_Foja> vRenglonesUltimaFoja = new ArrayList();
         if (vUltimaFoja != null){
-            vRenglonesUltimaFoja = vUltimaFoja.getvRenglones()
+            vRenglonesUltimaFoja = vUltimaFoja.getvRenglones();
         }
         
         ArrayList<Item> vItems = new ArrayList();
-        vItems = obra.getItems();
+        vItems = vObra.getItems();
         
         for (Item i: vItems){
-            Renglon_Foja vNuevoRenglon = null;
+            Renglon_Foja vNuevoRenglon;
             
             if (vUltimaFoja == null){
                 vNuevoRenglon = new Renglon_Foja((vRenglones.size()+1), 0, i);
             } else {
-                vNuevoRenglon = new Renglon_Foja((vRenglones.size()+1), (vRenglonesUltimaFoja.get((vRenglones.size()+1)).getPorc_acumulada(), i);
+                vNuevoRenglon = new Renglon_Foja((vRenglones.size()+1), (vRenglonesUltimaFoja.get((vRenglones.size()+1)).getPorc_acumulada()), i);
             }
             
             vRenglones.add(vNuevoRenglon);
         }
     
     }
+    
+}

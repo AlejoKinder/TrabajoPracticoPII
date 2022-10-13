@@ -47,9 +47,9 @@ public class Obra {
     
     // Agregar exception de "Si no existe item"
     
-    public void agregarCostoItem(double monto, Integer inicio_periodo_vigencia, Integer idItem){
-        Item it = buscarItem(idItem);
-        it.crearCosto(monto, inicio_periodo_vigencia);
+    public void agregarCostoItem(Integer vIdItem, Costo_Item vCostoNuevo){
+        Item vItem = buscarItem(vIdItem);
+        vItem.AgregarCosto(vCostoNuevo);
     }
     
     private Item buscarItem(Integer id){
@@ -61,8 +61,12 @@ public class Obra {
 
     //--------------------------------------------------------------------------
     
-    public Foja_Medicion DevolverUltimaFoja() throws Exception {
-        if (vFojas.size() == 0) {
+    public void AgregarFoja (Foja_Medicion vNuevaFoja){
+        this.vFojas.add(vNuevaFoja);
+    }
+    
+    public Foja_Medicion DevolverUltimaFoja() {
+        if (vFojas.isEmpty()) {
             return null;
         }else{
             Foja_Medicion vUltimaFoja = null;
@@ -72,9 +76,9 @@ public class Obra {
                 if (vUltimaFoja == null){
                     vUltimaFoja = f;
                 }else{
-                    vUltimaFecha = vMet.DevolverFechaMayor(vUltimaFoja.getFecha_de_creacion(), f.getFecha_de_creacion());
+                    vUltimaFecha = vMet.DevolverFechaMayor(vUltimaFoja.getvFechaCreacion(), f.getvFechaCreacion());
                     
-                    if (vUltimaFecha == vMet.TransformarFecha(f.getFecha_de_creacion())){
+                    if (vUltimaFecha == vMet.TransformarFecha(f.getvFechaCreacion())){
                         vUltimaFoja = f;
                     }
                 }

@@ -21,29 +21,40 @@ public class Sistema {
     
     //--ItemObra-------------------------------------------------------------------------------------------------
     
-    //Arreglar la creacion de items
-    public void crearItemObra(String denominacion, int tipo, Integer idObra){
-        Obra obr = buscarObra(idObra);
-        obr.AgregarItem(denominacion, tipo);        
+    public void crearItemObra(String vDenominacion, Integer vTipo, Integer idObra, double vMontoInicial, String vInicioPeriodoVigencia){
+        try {
+            Obra vObra = buscarObra(idObra);
+        
+            Item vNuevoItem = new Item((vObra.getItems().size()+1), vDenominacion, vTipo);
+            vObra.AgregarItem(vNuevoItem);
+
+            Costo_Item vNuevoCosto = new Costo_Item(0, vMontoInicial, vInicioPeriodoVigencia);
+            vObra.agregarCostoItem(vNuevoItem.getId_item(), vNuevoCosto);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
+    
     
     
     //--CostoItem-------------------------------------------------------------------------------------------------
     
-    public void crearCostoItem(double monto, Integer inicio_periodo_vigencia, Integer idObra, Integer idItem){
-        Obra obr = buscarObra(idObra);
-        obr.agregarCostoItem(monto, inicio_periodo_vigencia, idItem);
+    public void crearCostoItem(double vMonto, String inicio_periodo_vigencia, Integer idObra, Integer idItem){
+        Obra vObra = buscarObra(idObra);
+        
+        Costo_Item vNuevoCosto = new Costo_Item(0, vMonto, inicio_periodo_vigencia);
+        vObra.agregarCostoItem(idItem, vNuevoCosto);
     }
     
     //--Certificado-------------------------------------------------------------------------------------------------
     
     
-    //Va a tirar ERROR hasta que se arregle lo de foja
-    public void crearCertificado(String fecha_de_creacion, double importe_total, Integer idFoja){
-        Foja_Medicion foja = buscarFoja(idFoja);
+    //El importe total deberia calcular solo
+    public void crearCertificado(String fecha_de_creacion, Integer vIdFoja, Integer vIdObra){
+        Foja_Medicion foja = BuscarFoja(vIdFoja, vIdObra);
         
         if(foja != null){
-            Certificado cert = new Certificado(certificados.size() + 1, fecha_de_creacion, false, importe_total, foja);
+            Certificado cert = new Certificado(certificados.size() + 1, fecha_de_creacion, false, 5000, foja);
             certificados.add(cert);
         }else System.out.println("FOJA NO EXISTENTE!...");
     }
@@ -69,25 +80,18 @@ public class Sistema {
     //--Obra-------------------------------------------------------------------------------------------------
     
     public void crearObra(String nombre, float porc_flete, float porc_gastos, float porc_utilidad, float porc_IVA_vivienda, float porc_IVA_infraestructura, String nombre_finan, Integer cuitEmpresa){
-        Empresa em = buscarEmpresa(cuitEmpresa);
-        Financiacion finan = buscarFinanciacion (nombre_finan);
-        Obra ob = new Obra(ultimaObra() + 1, nombre, porc_flete, porc_gastos, porc_utilidad, porc_IVA_vivienda, porc_IVA_infraestructura, em, finan);
-        obras.add(ob);
-    }
-    
-    private int ultimaObra(){ //busca la ultima obra para hacer autoincremental el id obra.
-        int ultimo = obras.size() - 1;
-        if (ultimo >= 0) {
-            Obra ultimoObj = obras.get(ultimo);
-            return ultimoObj.getId_Obra();
-        }else{
-            return 0;
-        }
+        Empresa vEmpresa = buscarEmpresa(cuitEmpresa);
+        Financiacion vFinanciacion = buscarFinanciacion (nombre_finan);
+        
+        Obra vNuevaObra = new Obra(obras.size() + 1, nombre, porc_flete, porc_gastos, porc_utilidad, porc_IVA_vivienda, porc_IVA_infraestructura, vEmpresa, vFinanciacion);
+        obras.add(vNuevaObra);
     }
     
     private Obra buscarObra(Integer id){
         for(Obra p : obras){
-            if((p.getId_Obra()).equals(id)) return p;
+            if(Objects.equals(id, p.getId_Obra())) {
+                return p;
+            }
         }
         return null;
     }
@@ -103,22 +107,15 @@ public class Sistema {
     //--Empresa-------------------------------------------------------------------------------------------------
     
     public void crearEmpresa(Integer cuit, String nombre, String direccion, String repreLegal, String repreTecnico){
-        if(existenciaEmpresa(cuit) != true){
+        if(buscarEmpresa(cuit) == null){
                Empresa obj = new Empresa(cuit, nombre, direccion, repreLegal, repreTecnico);
                empresas.add(obj);
-        }else System.out.println("NUMERO DE CUIT: " + cuit + ", YA REGISTRADO!...");
-    }
-    
-    private boolean existenciaEmpresa(Integer cuit){ //verifica si existe una empresa o no.
-        boolean existencia = false;
-        for(Empresa p : empresas){
-            if((p.getCuit()).equals(cuit)) existencia = true; 
+        }else{
+            //Deberia tirar un exception aca
         }
-        return existencia;
     }
     
     private Empresa buscarEmpresa(Integer cuit){ //verifica si existe una empresa o no.
-        boolean existencia = false;
         for(Empresa p : empresas){
             if(((p.getCuit()).equals(cuit))) return p; 
         }
@@ -133,23 +130,40 @@ public class Sistema {
     
     //--Foja-------------------------------------------------------------------------------------------------
     
-    //Voy a crear devuelta toda la creacion de foja y renglones de foja
+    public void crearFoja(Integer vIdObra, String vFechaCreacion, String vDescripcion){
+        Obra vObra = buscarObra(vIdObra);
+        
+        Foja_Medicion vNuevaFoja = new Foja_Medicion ((vObra.DevolverUltimaFoja().getvIdFoja())+1, vFechaCreacion, vDescripcion, vObra);
+        
+        vNuevaFoja.CrearRenglonesFoja();
+        vObra.AgregarFoja(vNuevaFoja);
+        this.fojas.add(vNuevaFoja);
+    }
+    
+    public Foja_Medicion BuscarFoja (Integer vIdFoja, Integer vIdObra){
+        Obra vObra = buscarObra(vIdObra);
+        
+        for(Foja_Medicion p : this.fojas){
+            if(p.getvObra()==vObra){
+                if(Objects.equals(p.getvIdFoja(), vIdFoja)){
+                    return p;
+                }
+            }
+        }
+        return null;
+    }
+    
+    
     
     //--Financiacion-------------------------------------------------------------------------------------------------
     
     public void crearFinanciacion(String nombre){
-        if ((existenciaFinanciacion(nombre)) != true){
-            Financiacion obj = new Financiacion(ultimoIdFinanciacion() + 1, nombre);
+        if ((buscarFinanciacion(nombre)) == null){
+            Financiacion obj = new Financiacion(finan.size() + 1, nombre);
             finan.add(obj);
-        }else System.out.println("NOMBRE DE FINANCIACION YA EXISTENTE!...");
-    }
-    
-    private boolean existenciaFinanciacion(String nombre){ //verifica si existe una empresa o no.
-        boolean existencia = false;
-        for(Financiacion p : finan){
-            if((p.getNombre()).equals(nombre)) existencia = true;                  
+        }else{
+            //Deberia tirar un exception aca
         }
-        return existencia;
     }
     
     private Financiacion buscarFinanciacion(String nombre){ //verifica si existe una empresa o no.
@@ -157,16 +171,6 @@ public class Sistema {
             if((p.getNombre()).equals(nombre)) return p;                 
         }
         return null;
-    }
-    
-    private Integer ultimoIdFinanciacion(){ //busca el ultimo id de financiacion para sumarle 1 y asignarle eso al proximo financiacion a insertar       
-        int ultimo = finan.size() - 1;
-        if (ultimo >= 0) {
-            Financiacion ultimoObj = finan.get(ultimo);
-            return ultimoObj.getId();
-        }else{
-            return 0;
-        }        
     }
     
     public void getFinanciaciones(){

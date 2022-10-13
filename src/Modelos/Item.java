@@ -12,26 +12,18 @@ import java.util.*;
 public class Item {
     private Integer id_item;
     private String denominacion;
-    private int tipo;
+    private Integer tipo;
     private ArrayList<Costo_Item> costos = new ArrayList();
 
-    public Item(Integer id_item, String denominacion, int tipo) {
+    public Item(Integer id_item, String denominacion, Integer tipo) {
         this.id_item = id_item;
         this.denominacion = denominacion;
         this.tipo = tipo;
     }
     
-    public void crearCosto(double monto, Integer inicio_periodo_vigencia){
-        Costo_Item cos = new Costo_Item(ultimoCosto() + 1, monto, inicio_periodo_vigencia);
-        costos.add(cos);
-    }
-    
-    public String getUltimoCosto(){
-        if((ultimoObjCosto()) != null) {
-            Costo_Item cost = ultimoObjCosto();
-            System.out.println (cost.getId_costo() + " " + cost.getMonto() + " " + cost.getInicio_periodo_vigencia());
-        }        
-        return "";
+    public void AgregarCosto(Costo_Item vNuevoCosto){
+        vNuevoCosto.setId_costo(costos.size()+1);
+        costos.add(vNuevoCosto);
     }
 
     public Integer getId_item() {
@@ -42,7 +34,7 @@ public class Item {
         return denominacion;
     }
 
-    public int getTipo() {
+    public Integer getTipo() {
         return tipo;
     }
 
@@ -54,9 +46,13 @@ public class Item {
         this.denominacion = denominacion;
     }
 
-    public void setTipo(int tipo) {
+    public void setTipo(Integer tipo) {
         this.tipo = tipo;
     }
+    
+    
+    
+    //--------------------------------------------------------------------------
     
     private int ultimoCosto(){ //busca el ultimo costo.
         int ultimo = costos.size() - 1;
@@ -76,5 +72,13 @@ public class Item {
         }else{
             return null;
         }
+    }
+    
+    public String getUltimoCosto(){
+        if((ultimoObjCosto()) != null) {
+            Costo_Item cost = ultimoObjCosto();
+            System.out.println (cost.getId_costo() + " " + cost.getMonto() + " " + cost.getInicio_periodo_vigencia());
+        }        
+        return "";
     }
 }
