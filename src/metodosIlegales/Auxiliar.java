@@ -2,15 +2,42 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package FuncionesIlegales;
-import java.util.*;
-import java.lang.*;
+package metodosIlegales;
+import java.util.Objects;
 
 /**
  *
- * @author Mauricio
+ * @author dany_
  */
-public class metodos {
+public class Auxiliar {
+    
+     public Integer SumarArray(Integer vArray[]) {
+        Integer vSumaTotal = 0;
+        for (Integer a = 0; a < vArray.length; a++) {
+            vSumaTotal = vSumaTotal +  vArray[a];
+        }
+        return vSumaTotal;
+    }
+    
+    public boolean ValoresRepetidosArray(Integer vArray[]) {
+        for (Integer a = 0; a < vArray.length; a++) {
+            for (Integer b = (a+1); b < vArray.length; b++) {
+                if (Objects.equals(vArray[a], vArray[b])){
+                    return true; 
+                }
+            }
+        }
+        return false;
+    }
+    
+    public boolean BuscarValorArray(Integer vArray[], Integer vBuscado){
+        for (Integer a = 0; a < vArray.length; a++) {
+            if (Objects.equals(vBuscado, vArray[a])){
+                    return true; 
+            }
+        }
+        return false;
+    }
     
     public Integer[] TransformarFecha(String vFecha){
         
@@ -18,17 +45,15 @@ public class metodos {
         
         Integer vFechaTransformada[] = new Integer[3];
         
-        vFechaTransformada[0] = Integer.parseInt(vFechaSeparada[0]);
-        vFechaTransformada[1] = Integer.parseInt(vFechaSeparada[1]);
-        vFechaTransformada[2] = Integer.parseInt(vFechaSeparada[2]);
+        vFechaTransformada[0] = Integer.valueOf(vFechaSeparada[0]);
+        vFechaTransformada[1] = Integer.valueOf(vFechaSeparada[1]);
+        vFechaTransformada[2] = Integer.valueOf(vFechaSeparada[2]);
     
         return vFechaTransformada;
     }
     
-    public Integer[] DevolverFechaMayor(String vFecha1, String vFecha2){
-        
-        Integer vFechaTransformada1[] = this.TransformarFecha(vFecha1);
-        Integer vFechaTransformada2[] = this.TransformarFecha(vFecha2);
+    public Integer[] DevolverFechaMayor(Integer[] vFechaTransformada1, Integer[] vFechaTransformada2){
+       
 
         //Comparacion de años
         if (vFechaTransformada1[2] > vFechaTransformada2[2]) {      

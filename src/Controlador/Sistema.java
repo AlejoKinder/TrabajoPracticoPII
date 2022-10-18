@@ -2,181 +2,395 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Controlador;
+package controlador;
 
-import java.util.*;
-import Modelos.*;
+import java.util.ArrayList;
+import java.util.Objects;
+import modelo.*;
+import metodosIlegales.*;
+import vista.*;
 
 /**
- * Pongan los metodos con los nombres completos, no abrevien palabras
- * AHHHHHH
+ *
+ * @author dany_
  */
 public class Sistema {
     
-    private ArrayList <Obra> obras = new ArrayList();
-    private ArrayList <Empresa> empresas = new ArrayList();
-    private ArrayList <Foja_Medicion> fojas = new ArrayList();
-    private ArrayList <Financiacion> finan = new ArrayList();
-    private ArrayList <Certificado> certificados = new ArrayList();
+    private ArrayList<Financiacion> vFinanciaciones = new ArrayList(); 
+    private ArrayList<Empresa> vEmpresas = new ArrayList(); 
+    private ArrayList<Obra> vObras = new ArrayList();
+    private ArrayList<FojaMedicion> vFojas = new ArrayList();
+    private ArrayList<CertificadoPago> vCertificados = new ArrayList();
     
-    //--ItemObra-------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
-    public void crearItemObra(String vDenominacion, Integer vTipo, Integer idObra, double vMontoInicial, String vInicioPeriodoVigencia){
-        try {
-            Obra vObra = buscarObra(idObra);
-        
-            Item vNuevoItem = new Item((vObra.getItems().size()+1), vDenominacion, vTipo);
-            vObra.AgregarItem(vNuevoItem);
-
-            Costo_Item vNuevoCosto = new Costo_Item(0, vMontoInicial, vInicioPeriodoVigencia);
-            vObra.agregarCostoItem(vNuevoItem.getId_item(), vNuevoCosto);
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
+    Auxiliar vAux = new Auxiliar();
     
+    //--------------------------------------------------------------------------
     
-    
-    //--CostoItem-------------------------------------------------------------------------------------------------
-    
-    public void crearCostoItem(double vMonto, String inicio_periodo_vigencia, Integer idObra, Integer idItem){
-        Obra vObra = buscarObra(idObra);
-        
-        Costo_Item vNuevoCosto = new Costo_Item(0, vMonto, inicio_periodo_vigencia);
-        vObra.agregarCostoItem(idItem, vNuevoCosto);
-    }
-    
-    //--Certificado-------------------------------------------------------------------------------------------------
-    
-    
-    //El importe total deberia calcular solo
-    public void crearCertificado(String fecha_de_creacion, Integer vIdFoja, Integer vIdObra){
-        Foja_Medicion foja = BuscarFoja(vIdFoja, vIdObra);
-        
-        if(foja != null){
-            Certificado cert = new Certificado(certificados.size() + 1, fecha_de_creacion, false, 5000, foja);
-            certificados.add(cert);
-        }else System.out.println("FOJA NO EXISTENTE!...");
-    }
-    
-    public void crearRenglonCertificado(double importe_parcial, String denominacion, float porcentaje_Avance, Integer idCert){
-        Certificado cert = buscarCertificado(idCert);
-        
-        if(cert != null){
-            cert.crearConcepto(importe_parcial, denominacion, porcentaje_Avance);
-        }System.out.println("CERTIFICADO NO EXISTENTE!...");
-    }
-    
-    private Certificado buscarCertificado(Integer id){
-        for(Certificado p : certificados){
-            if(Objects.equals(p.getId_certificado(), id)){
-                return p;
-            }
-        }
-        
-        return null;
-    }
-    
-    //--Obra-------------------------------------------------------------------------------------------------
-    
-    public void crearObra(String nombre, float porc_flete, float porc_gastos, float porc_utilidad, float porc_IVA_vivienda, float porc_IVA_infraestructura, String nombre_finan, Integer cuitEmpresa){
-        Empresa vEmpresa = buscarEmpresa(cuitEmpresa);
-        Financiacion vFinanciacion = buscarFinanciacion (nombre_finan);
-        
-        Obra vNuevaObra = new Obra(obras.size() + 1, nombre, porc_flete, porc_gastos, porc_utilidad, porc_IVA_vivienda, porc_IVA_infraestructura, vEmpresa, vFinanciacion);
-        obras.add(vNuevaObra);
-    }
-    
-    private Obra buscarObra(Integer id){
-        for(Obra p : obras){
-            if(Objects.equals(id, p.getId_Obra())) {
-                return p;
-            }
-        }
-        return null;
-    }
-    
-    public void getObrasEItems(){
-        for(Obra p : obras){
-            System.out.println(p.getId_Obra() + " " + p.getNombre() + " ");
-            p.getItems();            
-        }
-    }
-    
-    
-    //--Empresa-------------------------------------------------------------------------------------------------
-    
-    public void crearEmpresa(Integer cuit, String nombre, String direccion, String repreLegal, String repreTecnico){
-        if(buscarEmpresa(cuit) == null){
-               Empresa obj = new Empresa(cuit, nombre, direccion, repreLegal, repreTecnico);
-               empresas.add(obj);
+    public void CrearEmpresa (Integer vCuit, String vNombre, String vDireccion, String vRepresentanteLegal, String vRepresentanteTecnico) throws Exception{
+        if (BuscarEmpresaCuit(vCuit) == null){
+            Empresa vNuevaEmpresa = new Empresa (vCuit, vNombre, vDireccion, vRepresentanteLegal, vRepresentanteTecnico);
+            vEmpresas.add(vNuevaEmpresa);
         }else{
-            //Deberia tirar un exception aca
+            throw new Exception ("Ya existe una empresa con el CUIT ingresado");
         }
     }
-    
-    private Empresa buscarEmpresa(Integer cuit){ //verifica si existe una empresa o no.
-        for(Empresa p : empresas){
-            if(((p.getCuit()).equals(cuit))) return p; 
+  
+    public Empresa BuscarEmpresaCuit (Integer vCuit){
+        for (Empresa a: vEmpresas){
+            if (Objects.equals(vCuit, a.getvCuit())){
+                return a;
+            }
         }
         return null;
     }
     
-    public void getEmpresas(){
-        for(Empresa p : empresas){
-            System.out.println(p.getCuit() + " " + p.getNombre() + " " + p.getDireccion() + " " + p.getRepreLegal() + " " + p.getRepreTecnico());
-        }
-    }     
+    //--------------------------------------------------------------------------
     
-    //--Foja-------------------------------------------------------------------------------------------------
-    
-    public void crearFoja(Integer vIdObra, String vFechaCreacion, String vDescripcion){
-        Obra vObra = buscarObra(vIdObra);
-        
-        Foja_Medicion vNuevaFoja = new Foja_Medicion ((vObra.DevolverUltimaFoja().getvIdFoja())+1, vFechaCreacion, vDescripcion, vObra);
-        
-        vNuevaFoja.CrearRenglonesFoja();
-        vObra.AgregarFoja(vNuevaFoja);
-        this.fojas.add(vNuevaFoja);
+    public void CrearFinanciacion (String vDescripcion){
+        Financiacion vNuevaFinanciacion = new Financiacion (vFinanciaciones.size()+1, vDescripcion);
+        vFinanciaciones.add(vNuevaFinanciacion);
     }
     
-    public Foja_Medicion BuscarFoja (Integer vIdFoja, Integer vIdObra){
-        Obra vObra = buscarObra(vIdObra);
+    public Financiacion BuscarFinanciacionId (Integer vIdFinanciacion){
+        for (Financiacion a: vFinanciaciones){
+            if (Objects.equals(vIdFinanciacion, a.getvIdFinanciacion())){
+                return a;
+            }
+        }
+        return null;
+    }
+    
+    //--------------------------------------------------------------------------
+    
+    public void CrearObra (String vDenominacion, String vLocalidad, Integer vCantidadViviendas, String vFechaInicio, Integer vPlazo, Integer vCuit, Integer vIdFinanciacion) throws Exception{
         
-        for(Foja_Medicion p : this.fojas){
-            if(p.getvObra()==vObra){
-                if(Objects.equals(p.getvIdFoja(), vIdFoja)){
-                    return p;
+        Financiacion vFinanciacion = BuscarFinanciacionId(vIdFinanciacion);
+        if (vFinanciacion != null){
+           
+            Empresa vEmpresa = BuscarEmpresaCuit(vCuit);
+            if (vEmpresa != null){
+                
+                Obra vNuevaObra = new Obra (vObras.size()+1, vDenominacion, vLocalidad, vCantidadViviendas, vFechaInicio, vPlazo, vEmpresa, vFinanciacion);
+                vObras.add(vNuevaObra);
+            }else{
+                throw new Exception ("La empresa ingresada, no existe");
+            }
+        }else{
+            throw new Exception ("La financiacion ingresada, no existe");
+        }
+    }
+    
+    public Obra BuscarObraId (Integer vIdObra){
+        for (Obra a: vObras){
+            if (Objects.equals(vIdObra, a.getvIdObra())){
+                return a;
+            }
+        }
+        return null;
+    }
+    
+    public void RedefinirIncidenciaItems (Integer vIdObra, Integer vValores[]) throws Exception{
+        Obra vObra = BuscarObraId(vIdObra);
+        if (vObra != null){
+            
+            if (!vObra.getvItems().isEmpty()){
+                
+                if (vValores.length == vObra.getvItems().size()){
+                    
+                    Integer vValorSumado = vAux.SumarArray(vValores);
+                    if (vValorSumado == 100){
+
+                        Integer vPos = 0;
+                        for (Item a: vObra.getvItems()){
+                            a.setvIncidencia(vValores[vPos]);
+                            vPos = vPos + 1;
+                        }
+                    }else{
+                        throw new Exception ("La suma total de los valores ingresados, no da 100%, da " + vValorSumado + "%");
+                    }
+                }else{
+                    throw new Exception ("La cantidad de valores ingresada, no es igual a la cantidad de items de la obra");
+                }
+            }else{
+                throw new Exception ("La obra ingresada, no tiene items incluidos");
+            }
+        }else{
+            throw new Exception ("La obra ingresada, no existe");
+        }
+    }
+    
+    public void RedefinirOrdenItems (Integer vIdObra, Integer vValores[]) throws Exception {
+        Obra vObra = BuscarObraId(vIdObra);
+        if (vObra != null){
+            
+            if (!vObra.getvItems().isEmpty()){
+                
+                if (vValores.length == vObra.getvItems().size()){
+                    
+                    if (vAux.BuscarValorArray(vValores, null) == false){
+                        
+                        if (vAux.ValoresRepetidosArray(vValores) == false){
+
+                            Integer vPos = 0;
+                            for (Item a: vObra.getvItems()){
+                                a.setvOrden(vValores[vPos]);
+                                vPos = vPos + 1;
+                            }
+                        }else{
+                            throw new Exception ("Hay dos o mas items con el mismo numero de orden");
+                        }
+                    }else{
+                        throw new Exception ("No se puede asignar orden null a un item");
+                    }
+                }else{
+                    throw new Exception ("La cantidad de valores ingresada, no es igual a la cantidad de items de la obra");
+                }
+            }else{
+                throw new Exception ("La obra ingresada, no tiene items incluidos");
+            }
+        }else{
+            throw new Exception ("La obra ingresada, no existe");
+        }
+    }
+    
+    public Integer DevolverAvanceObra (Integer vIdObra) throws Exception{
+        Obra vObra = BuscarObraId(vIdObra);
+        if (vObra != null){
+            
+            if (!vObra.getvItems().isEmpty()){
+                
+                FojaMedicion vUltimaFoja = this.BuscarUltimaFoja(vIdObra);
+                if (vUltimaFoja != null){
+                    
+                    Double vAvance = 0.0;
+                    Integer vPos = 0;
+                    for (RenglonFoja a: vUltimaFoja.getvRenglones()){
+                    
+                        vAvance = vAvance + ((a.getvPorcentajeAcumulado()*vObra.getvItems().get(vPos).getvIncidencia())/100);
+                        vPos = vPos + 1;
+                    }
+                    
+                    return (int)Math.floor(vAvance);
+                }else{
+                    return 0;
+                }
+            }else{
+                throw new Exception ("La obra ingresada, no tiene items incluidos");
+            }
+        }else{
+            throw new Exception ("La obra ingresada, no existe");
+        }
+    }
+    
+    public void DevolverCostosItems (Integer vIdObra) throws Exception{
+        Obra vObra = BuscarObraId(vIdObra);
+        if (vObra != null){
+            
+            if (!vObra.getvItems().isEmpty()){
+                
+                for (Item a: vObra.getvItems()) {
+                    System.out.println("El costo vigente de el item " + a.getvDenominacion() + " es de: " + a.DevolverCostoVigente().getvMonto());
+                }
+                
+            }else{
+                throw new Exception ("La obra ingresada, no tiene items incluidos");
+            }
+        }else{
+            throw new Exception ("La obra ingresada, no existe");
+        }
+    }
+    
+    //--------------------------------------------------------------------------
+    
+    public void CrearItem (Integer vIdObra, String vDenominacion, Float vImpuestoFlete, Float vImpuestoGastos, Float vImpuestoUtilidad, Double vMontoInicial, String vFechaInicioVigencia) throws Exception{
+        Obra vObra = BuscarObraId(vIdObra);
+        
+        if (vObra != null){
+            Item vNuevoItem = new Item (vObra.getvItems().size()+1, vDenominacion, 0, 0, vImpuestoFlete, vImpuestoGastos, vImpuestoUtilidad);
+            vObra.AgregarItem(vNuevoItem);
+            
+            Costo vCostoInicial = new Costo (1, vMontoInicial, vFechaInicioVigencia);
+            vNuevoItem.AgregarCosto(vCostoInicial);
+        }else{
+            throw new Exception ("La obra ingresada, no existe");
+        }
+    }
+    
+    //--------------------------------------------------------------------------
+    
+    public void CrearCosto (Integer vIdObra, Integer vIdItem, Double vMonto, String vFechaInicioVigencia) throws Exception{
+        Obra vObra = BuscarObraId(vIdObra);
+        
+        if (vObra != null){
+            Item vItem = vObra.BuscarItemId(vIdItem);
+            
+            if (vItem != null){
+                
+                Costo vNuevoCosto = new Costo (vItem.getvCostos().size()+1, vMonto, vFechaInicioVigencia);
+                vItem.AgregarCosto(vNuevoCosto);
+            }else{
+                throw new Exception ("El item ingresado, no existe");
+            }
+        }else{
+            throw new Exception ("La obra ingresada, no existe");
+        }
+    }
+
+    //--------------------------------------------------------------------------
+    
+    public void CrearFojaMedicion (Integer vIdObra, String vFechaEmision) throws Exception{
+        Obra vObra = BuscarObraId(vIdObra);
+        if (vObra != null){
+            
+            if (!vObra.getvItems().isEmpty()){
+                
+                FojaMedicion vNuevaFoja = new FojaMedicion (vFojas.size()+1, vFechaEmision, vObra);
+                
+                FojaMedicion vUltimaFoja = this.BuscarUltimaFoja(vIdObra);
+                
+                //Agregar condicion para cuando la fecha emision de la nueva foja es menor que el de la ultima foja
+                
+                vNuevaFoja.CrearRenglones(vUltimaFoja);
+                
+                this.vFojas.add(vNuevaFoja);
+                
+            }else{
+                throw new Exception ("La obra ingresada, no tiene items incluidos");
+            }
+        }else{
+            throw new Exception ("La obra ingresada, no existe");
+        }
+    }
+    
+    public FojaMedicion BuscarFojaMedicion (Integer vIdObra, String vFechaEmision) throws Exception{
+        Obra vObra = BuscarObraId(vIdObra);
+        if (vObra != null){
+            
+            for (FojaMedicion a: vFojas){
+                if (a.getvObra() == vObra){
+                    
+                    if (a.getvFechaEmision().equals(vFechaEmision)){
+                        return a;
+                    }
                 }
             }
-        }
-        return null;
-    }
-    
-    
-    
-    //--Financiacion-------------------------------------------------------------------------------------------------
-    
-    public void crearFinanciacion(String nombre){
-        if ((buscarFinanciacion(nombre)) == null){
-            Financiacion obj = new Financiacion(finan.size() + 1, nombre);
-            finan.add(obj);
+            return null;
+
         }else{
-            //Deberia tirar un exception aca
+            throw new Exception ("La obra ingresada, no existe");
         }
     }
     
-    private Financiacion buscarFinanciacion(String nombre){ //verifica si existe una empresa o no.
-        for(Financiacion p : finan){
-            if((p.getNombre()).equals(nombre)) return p;                 
+    public FojaMedicion BuscarUltimaFoja (Integer vIdObra) throws Exception{
+        Obra vObra = BuscarObraId(vIdObra);
+        if (vObra != null){
+            
+            if (!vObra.getvItems().isEmpty()){
+                
+                Integer[] vFechaMayor = new Integer[3];
+                
+                vFechaMayor[0] = 0;
+                vFechaMayor[1] = 0;
+                vFechaMayor[2] = 0;
+                FojaMedicion vUltimaFoja = null;
+
+                for (FojaMedicion a: this.vFojas){
+
+                    if (a.getvObra() == vObra){
+                        Integer[] vFecha = new Integer[3];
+                        vFecha = vAux.TransformarFecha(a.getvFechaEmision());
+
+                        vFechaMayor = vAux.DevolverFechaMayor(vFecha, vFechaMayor);
+
+                        if (vFechaMayor == vFecha){
+                            vUltimaFoja = a;
+                        }
+                    }
+                }
+                
+                return vUltimaFoja;
+                
+            }else{
+                throw new Exception ("La obra ingresada, no tiene items incluidos");
+            }
+        }else{
+            throw new Exception ("La obra ingresada, no existe");
+        }
+        
+    }
+    
+    public void ActualizarFojaMedicion (Integer vIdObra, String vFechaEmision, Integer vPorcentajes[]) throws Exception {
+        
+        FojaMedicion vFoja = this.BuscarFojaMedicion(vIdObra, vFechaEmision);
+        if (vFoja != null){
+            
+            if (vPorcentajes.length == vFoja.getvRenglones().size()){
+                
+                if (vAux.BuscarValorArray(vPorcentajes, null) == false){
+                    
+                    Integer vPos = 0;
+                    for (RenglonFoja a: vFoja.getvRenglones()){
+                        a.DefinirPorcentajeActual(vPorcentajes[vPos]);
+                        vPos = vPos + 1;
+                    }
+                    
+                }else{
+                    throw new Exception ("No se puede asignar orden null a un porcentaje de avance");
+                }
+            }else{
+                throw new Exception ("La cantidad de valores ingresada, no es igual a la cantidad de items de la foja");
+            }
+        }else{
+            throw new Exception ("No se pudo encontrar a la foja buscada");
+        }
+    }
+    
+    //--------------------------------------------------------------------------
+    
+    public void CrearCertificadoPago (Integer vIdObra, String vFechaEmisionFoja, String vFechaEmisionCertificado) throws Exception{
+        FojaMedicion vFoja = this.BuscarFojaMedicion(vIdObra, vFechaEmisionFoja);
+        if (vFoja != null){
+            
+            CertificadoPago vNuevoCertificado = new CertificadoPago (this.vCertificados.size()+1, vFechaEmisionCertificado, vFoja.getvObra(), vFoja);
+            
+            vNuevoCertificado.CrearRenglones();
+            vCertificados.add(vNuevoCertificado);
+            
+        }else{
+            throw new Exception ("La foja ingresada, no existe");
+        }
+    }
+    
+    public CertificadoPago BuscarCertificadoId (Integer vIdCertificado){
+        for (CertificadoPago a: vCertificados){
+            if (Objects.equals(a.getvIdCertificado(), vIdCertificado)){
+                return a;
+            }
         }
         return null;
     }
     
-    public void getFinanciaciones(){
-        for(Financiacion p : finan){
-            System.out.println(p.getId() + " " + p.getNombre());
+    public Double DevolverCostoTotalCertificado (Integer vIdCertificado) throws Exception{
+        CertificadoPago vCertificado = this.BuscarCertificadoId(vIdCertificado);
+        if (vCertificado != null){
+        
+            return vCertificado.getvCostoTotal();
+            
+        }else{
+            throw new Exception ("El certificado ingresado, no existe");
         }
-    }   
+    }
+
+    //--------------------------------------------------------------------------
+    //--VISTAS------------------------------------------------------------------
     
+    public void AbrirVistaEmpresas(){
+    
+        VistaEmpresas vVista = new VistaEmpresas(this);
+        vVista.setVisible(true);
+        
+    }
+
 }
