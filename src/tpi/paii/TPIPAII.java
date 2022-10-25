@@ -21,6 +21,7 @@ public class TPIPAII {
         
         try{
             vSis.CrearEmpresa(251100, "Thai Cuisine", "Newbery 3480", "Velazquez Mauricio", "Kinder Alejo");
+            vSis.CrearEmpresa(210801, "TecnoMisiones", "Florencio 3762", "Echeverria Celeste", "Pereyra Alejandro");
             
             vSis.CrearFinanciacion("Ni idea");
             
@@ -68,9 +69,9 @@ public class TPIPAII {
             
             //------------------------------------------------------------------
             
-            vSis.AbrirVistaEmpresas();
+            vSis.AbrirVistaMenuPrincipal();
             
-
+            
         }catch (Exception e){
             System.out.println(e.getMessage());
         }

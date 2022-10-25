@@ -11,14 +11,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
 
-
 /**
  *
  * @author Mauricio
  */
-public final class VistaEmpresas extends JFrame {
+public class VistaFinanciaciones extends JFrame {
     
-    private JTable vTabla;
+    private JPanel vPCentro;
+    
+        private JTable vTabla;
     
     private JPanel vPSur;
     
@@ -27,11 +28,8 @@ public final class VistaEmpresas extends JFrame {
     
         private JPanel vPSur2;
         
-        private JTextField vCuit;
-        private JTextField vNombre;
-        private JTextField vDireccion;
-        private JTextField vRepLegal;
-        private JTextField vRepTecnico;
+        private JTextField vIdFinanciacion;
+        private JTextField vDenominacion;
     
         private JPanel vPSur3;
         private JButton vBotonCrear;
@@ -44,22 +42,27 @@ public final class VistaEmpresas extends JFrame {
     
     //--------------------------------------------------------------------------
     
-    public VistaEmpresas (Sistema vSis){
+    public VistaFinanciaciones (Sistema vSis){
         this.vSis = vSis;
         this.IniciarVista();
     }
     
     public void IniciarVista(){
         
-        String [] vEncabezado = {"Cuit", "Nombre", "Direccion", "Rep. Legal", "Rep. Tecnico"};
-        vTabla = new JTable(vSis.DevolverEmpresasVista(), vEncabezado);
-        this.ActualizarTabla();
+        vPCentro = new JPanel();
         
-        vTabla.setPreferredSize(new Dimension(600,100));
-        vTabla.setPreferredScrollableViewportSize(vTabla.getPreferredSize());
-        vTabla.setFillsViewportHeight(true);
-        
-        this.add(new JScrollPane(vTabla), BorderLayout.CENTER);
+            String [] vEncabezado = {"Id", "Denominacion"};
+            vTabla = new JTable(vSis.DevolverFinanciacionesVista(), vEncabezado);
+            this.ActualizarTabla();
+
+            vTabla.setPreferredSize(new Dimension(300,230));
+            vTabla.setPreferredScrollableViewportSize(vTabla.getPreferredSize());
+            vTabla.setFillsViewportHeight(true);
+
+            vPCentro.add(new JScrollPane(vTabla), BorderLayout.CENTER);
+            vPCentro.setBorder(BorderFactory.createEmptyBorder(0, 0, 150, 0));
+            
+            this.add(vPCentro, BorderLayout.CENTER);
         
         //----------------------------------------------------------------------
         
@@ -68,7 +71,7 @@ public final class VistaEmpresas extends JFrame {
         
         vPSur1 = new JPanel();
 
-        vTituloCrear = new JLabel ("Ingrese los datos de la nueva empresa aqui abajo");
+        vTituloCrear = new JLabel ("Ingrese los datos de la nueva financiacion aqui abajo");
         vPSur1.add(this.vTituloCrear);
 
         vPSur.add(vPSur1);
@@ -76,25 +79,23 @@ public final class VistaEmpresas extends JFrame {
         vPSur2 = new JPanel();
         vPSur2.setLayout(new GridLayout(1, 5));
 
-        vCuit = new JTextField (10);
-        vNombre = new JTextField (10);
-        vDireccion = new JTextField (10);
-        vRepLegal = new JTextField (10);
-        vRepTecnico = new JTextField (10);
+            vIdFinanciacion = new JTextField (10);
+            vIdFinanciacion.setText(String.valueOf(vSis.getvFinanciaciones().size()+1));
+            vIdFinanciacion.setEditable(false);
+            vDenominacion = new JTextField (10);
 
-        vPSur2.add(this.vCuit);
-        vPSur2.add(this.vNombre);
-        vPSur2.add(this.vDireccion);
-        vPSur2.add(this.vRepLegal);
-        vPSur2.add(this.vRepTecnico);
+            vPSur2.add(this.vIdFinanciacion);
+            vPSur2.add(this.vDenominacion);
 
-        vPSur.add(vPSur2);
+            vPSur2.setBorder(BorderFactory.createEmptyBorder(0, 140, 0, 140));
+
+            vPSur.add(vPSur2);
 
         vPSur3 = new JPanel();
         vPSur3.setLayout(new GridLayout(1, 2));
 
         vBotonAtras = new JButton ("Volver al menu principal");
-        vBotonCrear = new JButton ("Crear nueva empresa");
+        vBotonCrear = new JButton ("Crear nueva financiacion");
 
         vPSur3.add(this.vBotonAtras);
         vPSur3.add(this.vBotonCrear);
@@ -103,7 +104,7 @@ public final class VistaEmpresas extends JFrame {
         
         vPSur4 = new JPanel();
 
-        vLog = new JLabel ("Aqui puede ver las empresas existentes y crear nuevas empresas");
+        vLog = new JLabel ("Aqui puede ver las financiaciones existentes y crear nuevas");
         vPSur4.add(this.vLog);
         
         vPSur.add(vPSur4);
@@ -112,7 +113,7 @@ public final class VistaEmpresas extends JFrame {
         
         //----------------------------------------------------------------------
         
-        setTitle("Empresas");
+        setTitle("Financiaciones");
         setSize(600,400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
@@ -133,41 +134,25 @@ public final class VistaEmpresas extends JFrame {
     Auxiliar vAux = new Auxiliar();
     
     public void ActualizarTabla(){
-        String [] vEncabezado = {"Cuit", "Nombre", "Direccion", "Rep. Legal", "Rep. Tecnico"};
-        DefaultTableModel vTablaNueva = new DefaultTableModel(vSis.DevolverEmpresasVista(), vEncabezado);
+        String [] vEncabezado = {"Id", "Denominacion"};
+        DefaultTableModel vTablaNueva = new DefaultTableModel(vSis.DevolverFinanciacionesVista(), vEncabezado);
     
         vTabla.setModel(vTablaNueva);
         
         if ((vTabla.getRowCount()*vTabla.getRowHeight())>100){
             vTabla.setPreferredSize(new Dimension(600,(vTabla.getRowCount()*vTabla.getRowHeight())));
         }
+        
+        if (vIdFinanciacion != null){
+            vIdFinanciacion.setText(String.valueOf(vSis.getvFinanciaciones().size()+1));
+        }
+        
     }
     
-    private void EmpresaValida() throws Exception{
-        if (vCuit.getText().length() == 0){
-            throw new Exception ("ERROR: La empresa debe tener un CUIT");
+    private void FinanciacionValida() throws Exception{
+        if (vDenominacion.getText().length() == 0){
+            throw new Exception ("ERROR: La financiacion debe tener una denominacion");
         }
-        
-        if(!vAux.isInteger(vCuit.getText())){
-            throw new Exception ("ERROR: El CUIT de la empresa debe ser un numero");
-        }
-        
-        if (vNombre.getText().length() == 0){
-            throw new Exception ("ERROR: La empresa debe tener un nombre");
-        }
-        
-        if (vDireccion.getText().length() == 0){
-            throw new Exception ("ERROR: La empresa debe tener una direccion");
-        }
-        
-        if (vRepLegal.getText().length() == 0){
-            throw new Exception ("ERROR: La empresa debe tener un representante legal");
-        }
-
-        if (vRepTecnico.getText().length() == 0){
-            throw new Exception ("ERROR: La empresa debe tener un representante tecnico");
-        }
-        
     }
     
     private void CrearEmpresa(){
@@ -175,16 +160,16 @@ public final class VistaEmpresas extends JFrame {
         
         try{
             
-            this.EmpresaValida();
-            vSis.CrearEmpresa(vAux.toInteger(vCuit.getText()), vNombre.getText(), vDireccion.getText(), vRepLegal.getText(), vRepTecnico.getText());
+            this.FinanciacionValida();
+            vSis.CrearFinanciacion(vDenominacion.getText());
             this.ActualizarTabla();
 
-            vLog.setText("Empresa " + vNombre.getText() + " creada");
+            vLog.setText("Financiacion " + vDenominacion.getText() + " creada");
 
         }catch(Exception e){
             vLog.setText(e.getMessage());
         }
         
     }
-    
+
 }

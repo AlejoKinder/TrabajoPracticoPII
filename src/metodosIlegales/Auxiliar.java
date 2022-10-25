@@ -4,6 +4,7 @@
  */
 package metodosIlegales;
 import java.util.Objects;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -79,5 +80,45 @@ public class Auxiliar {
                 }
             }
         }
+    }
+    
+    public boolean isInteger( String input ) {
+        try {
+            Integer.parseInt( input );
+            return true;
+        }
+        catch( Exception e ) {
+            return false;
+        }
+    }
+    
+    public Integer toInteger (String str){
+        Integer number = Integer.valueOf(str);
+        return number;
+    }
+    
+    public boolean isDouble (String input){
+        try{
+            Double.parseDouble(input);
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+    }
+    
+    public Double toDouble (String input){
+        Double numero = Double.parseDouble(input);
+        return numero;
+    }
+    
+    public boolean esFecha (String a){
+        if (a.length() == 10){
+            if (a.charAt(2) == '/'){
+                if (a.charAt(5) == '/'){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

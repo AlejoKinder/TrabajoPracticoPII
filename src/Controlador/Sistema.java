@@ -4,11 +4,11 @@
  */
 package controlador;
 
+import Vista.*;
 import java.util.ArrayList;
 import java.util.Objects;
 import modelo.*;
 import metodosIlegales.*;
-import vista.*;
 
 /**
  *
@@ -26,6 +26,12 @@ public class Sistema {
     
     Auxiliar vAux = new Auxiliar();
     
+    VistaMenuPrincipal vVistaA = null;
+    VistaEmpresas vVista1 = null;
+    VistaFinanciaciones vVista2 = null;
+    VistaObras1 vVista3 = null;
+    VistaObras2 vVista3A = null;
+    
     //--------------------------------------------------------------------------
     
     public void CrearEmpresa (Integer vCuit, String vNombre, String vDireccion, String vRepresentanteLegal, String vRepresentanteTecnico) throws Exception{
@@ -33,7 +39,7 @@ public class Sistema {
             Empresa vNuevaEmpresa = new Empresa (vCuit, vNombre, vDireccion, vRepresentanteLegal, vRepresentanteTecnico);
             vEmpresas.add(vNuevaEmpresa);
         }else{
-            throw new Exception ("Ya existe una empresa con el CUIT ingresado");
+            throw new Exception ("ERROR: Ya existe una empresa con el CUIT ingresado");
         }
     }
   
@@ -44,6 +50,24 @@ public class Sistema {
             }
         }
         return null;
+    }
+    
+    public String [][] DevolverEmpresasVista (){
+        String[][] vArray = new String[this.vEmpresas.size()][5];
+        
+        Integer vPos = 0;
+        for (Empresa a: vEmpresas){
+        
+            vArray[vPos][0] = a.getvCuit().toString();
+            vArray[vPos][1] = a.getvNombre();
+            vArray[vPos][2] = a.getvDireccion();
+            vArray[vPos][3] = a.getvRepresentanteLegal();
+            vArray[vPos][4] = a.getvRepresentanteTecnico();
+            
+            vPos = vPos + 1;
+        }
+        
+        return vArray;
     }
     
     //--------------------------------------------------------------------------
@@ -60,6 +84,21 @@ public class Sistema {
             }
         }
         return null;
+    }
+    
+    public String [][] DevolverFinanciacionesVista (){
+        String[][] vArray = new String[this.vFinanciaciones.size()][2];
+        
+        Integer vPos = 0;
+        for (Financiacion a: this.vFinanciaciones){
+        
+            vArray[vPos][0] = a.getvIdFinanciacion().toString();
+            vArray[vPos][1] = a.getvDescripcion();
+            
+            vPos = vPos + 1;
+        }
+        
+        return vArray;
     }
     
     //--------------------------------------------------------------------------
@@ -202,6 +241,50 @@ public class Sistema {
         }
     }
     
+    public String [][] DevolverObrasVista1 (){
+        String[][] vArray = new String[this.vObras.size()][6];
+        
+        Integer vPos = 0;
+        for (Obra a: this.vObras){
+        
+            vArray[vPos][0] = a.getvIdObra().toString();
+            vArray[vPos][1] = a.getvDenominacion();
+            vArray[vPos][2] = a.getvLocalidad();
+            vArray[vPos][3] = a.getvCantidadViviendas().toString();
+            vArray[vPos][4] = a.getvFechaInicio();
+            vArray[vPos][5] = a.getvPlazo().toString();
+            
+            vPos = vPos + 1;
+        }
+        
+        return vArray;
+    }
+    
+    public String [][] DevolverObrasVista2 (){
+        String[][] vArray = new String[this.vObras.size()][6];
+        
+        Integer vPos = 0;
+        for (Obra a: this.vObras){
+        
+            vArray[vPos][0] = a.getvIdObra().toString();
+            vArray[vPos][1] = a.getvDenominacion();
+            vArray[vPos][2] = a.getvEmpresa().getvNombre();
+            vArray[vPos][3] = a.getvFinanciacion().getvDescripcion();
+            
+            try{
+                vArray[vPos][4] = this.DevolverAvanceObra(a.getvIdObra()).toString() + "%";
+            }catch (Exception e){
+                vArray[vPos][4] = "Error";
+            }
+            
+            vArray[vPos][5] = "IMPLEMENTAR";   
+            
+            vPos = vPos + 1;
+        }
+        
+        return vArray;
+    }
+    
     //--------------------------------------------------------------------------
     
     public void CrearItem (Integer vIdObra, String vDenominacion, Float vImpuestoFlete, Float vImpuestoGastos, Float vImpuestoUtilidad, Double vMontoInicial, String vFechaInicioVigencia) throws Exception{
@@ -216,6 +299,43 @@ public class Sistema {
         }else{
             throw new Exception ("La obra ingresada, no existe");
         }
+    }
+    
+    public String [][] DevolverItemsVista1 (Obra vObra) throws Exception{
+        String[][] vArray = new String[vObra.getvItems().size()][6];
+        
+        Integer vPos = 0;
+        for (Item a: vObra.getvItems()){
+        
+            vArray[vPos][0] = a.getvIdItem().toString();
+            vArray[vPos][1] = a.getvDenominacion();
+            vArray[vPos][2] = a.getvOrden().toString();
+            vArray[vPos][3] = a.getvIncidencia().toString() + "%";
+            vArray[vPos][4] = "$" + a.DevolverCostoVigente().getvMonto().toString();
+            vArray[vPos][5] = a.DevolverCostoVigente().getvFechaInicioVigencia();
+            
+            vPos = vPos + 1;
+        }
+        
+        return vArray;
+    }
+    
+    public String [][] DevolverItemsVista2 (Obra vObra) throws Exception{
+        String[][] vArray = new String[vObra.getvItems().size()][5];
+        
+        Integer vPos = 0;
+        for (Item a: vObra.getvItems()){
+        
+            vArray[vPos][0] = a.getvIdItem().toString();
+            vArray[vPos][1] = a.getvDenominacion();
+            vArray[vPos][2] = a.getvImpuestoFlete().toString() + "%";
+            vArray[vPos][3] = a.getvImpuestoGastos().toString() + "%";
+            vArray[vPos][4] = a.getvImpuestoUtilidad().toString() + "%";
+            
+            vPos = vPos + 1;
+        }
+        
+        return vArray;
     }
     
     //--------------------------------------------------------------------------
@@ -386,11 +506,120 @@ public class Sistema {
     //--------------------------------------------------------------------------
     //--VISTAS------------------------------------------------------------------
     
-    public void AbrirVistaEmpresas(){
-    
-        VistaEmpresas vVista = new VistaEmpresas(this);
-        vVista.setVisible(true);
+    private void CerrarVistas(){
+        
+        if (vVista1 != null){
+            if (vVista1.isShowing()){
+                vVista1.setVisible(false);
+            }
+        }
+        
+        if (vVista2 != null){
+            if (vVista2.isShowing()){
+                vVista2.setVisible(false);
+            }
+        }
+        
+        if (vVista3 != null){
+            if (vVista3.isShowing()){
+                vVista3.setVisible(false);
+                
+            }
+        }
+        
+        if (vVista3A != null){
+            if (vVista3A.isShowing()){
+                vVista3A.setVisible(false);
+            }
+        }
         
     }
+    
+    public void AbrirVistaMenuPrincipal(){
+        
+        CerrarVistas();
+        
+        if (vVistaA == null){
+            vVistaA = new VistaMenuPrincipal(this);
+        }
+                
+        vVistaA.setVisible(true);
+        
+    }
+    
+    public void AbrirVistaEmpresas(){
+        
+        if (vVista1 == null){
+            vVista1 = new VistaEmpresas(this);
+        }else{
+            vVista1.ActualizarTabla();
+        }
+        vVistaA.setVisible(false);
+        vVista1.setVisible(true);
+        
+    }
+    
+    public void AbrirVistaFinanciaciones(){
+        
+        if (vVista2 == null){
+            vVista2 = new VistaFinanciaciones(this);
+        }else{
+            vVista2.ActualizarTabla();
+        }
+        vVistaA.setVisible(false);
+        vVista2.setVisible(true);
+        
+    }
+    
+    public void AbrirVistaObras1(){
+        
+        if (vVista3 == null){
+            vVista3 = new VistaObras1(this);
+        }else{
+            vVista3.Reset();
+        }
+        
+        vVistaA.setVisible(false);
+        vVista3.setVisible(true);
+        
+    }
+    
+    public void AbrirVistaObras2(){
+    
+        vVista3.setVisible(false);
+        
+        if (vVista3A == null){
+            vVista3A = new VistaObras2(this);
+        }else{
+            vVista3A.Reset();
+        }
+        
+        vVista3A.setVisible(true);
+    
+    }
+    
+    //--------------------------------------------------------------------------
+
+    public ArrayList<Financiacion> getvFinanciaciones() {
+        return vFinanciaciones;
+    }
+
+    public ArrayList<Empresa> getvEmpresas() {
+        return vEmpresas;
+    }
+
+    public ArrayList<Obra> getvObras() {
+        return vObras;
+    }
+
+    public ArrayList<FojaMedicion> getvFojas() {
+        return vFojas;
+    }
+
+    public ArrayList<CertificadoPago> getvCertificados() {
+        return vCertificados;
+    }
+    
+    
 
 }
