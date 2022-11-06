@@ -33,23 +33,27 @@ public class TPIPAII {
             vSis.CrearItem(1, "Techo", (float)2.5, (float)3.5, (float)4.5, (double)8000, "13/10/2022");
             
             vSis.CrearCosto(1, 1, (double)7500, "14/10/2022");
+
+            vSis.DevolverCostosItems(1);
+            
             
             Integer[] vIncidencia = new Integer[3];
-                    
-            vIncidencia[0] = 10;
-            vIncidencia[1] = 50;
-            vIncidencia[2] = 40;
+            
+            vIncidencia[0] = 30;
+            vIncidencia[1] = 20;
+            vIncidencia[2] = 50;
+            
+            vSis.RedefinirIncidenciaItems(vSis.BuscarObraId(1), vIncidencia);
             
             Integer[] vOrden = new Integer[3];
             
-            vOrden[0] = 3;
+            vOrden[0] = 1;
             vOrden[1] = 2;
-            vOrden[2] = 1;
+            vOrden[2] = 3;
             
-            vSis.RedefinirOrdenItems(1, vOrden);
-            vSis.RedefinirIncidenciaItems(1, vIncidencia);
+            vSis.RedefinirOrdenItems(vSis.BuscarObraId(1), vOrden);
             
-            vSis.DevolverCostosItems(1);
+            
             
             vSis.CrearFojaMedicion(1, "15/10/2022");
             
@@ -59,9 +63,11 @@ public class TPIPAII {
             vPorcentajes[1] = 15;
             vPorcentajes[2] = 10;
             
-            vSis.ActualizarFojaMedicion(1, "15/10/2022", vPorcentajes);
+            vSis.ActualizarFojaMedicion(vSis.BuscarFojaMedicion(1, "15/10/2022"), vPorcentajes);
             
             System.out.println("El avance de la obra 1 es: " + vSis.DevolverAvanceObra(1) + "%");
+            
+            
             
             vSis.CrearCertificadoPago(1, "15/10/2022", "17/10/2022");
             

@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.*;
+import javax.swing.border.EmptyBorder;
 
 
 /**
@@ -18,27 +19,19 @@ import java.util.*;
  */
 public class VistaMenuPrincipal extends JFrame {
     
-    private JPanel vPCentro;
+    private JPanel sRotulo;
     
-        private JButton vBotonEmpresas;
-        private JButton vBotonFinanciaciones;
+        private JLabel sTitulo;
+        private JLabel sNombre;
         
-        private JPanel vPCentro3;
-        
-        private JButton vBotonObras1;
-        private JButton vBotonObras2;
-        
-        private JPanel vPCentro4;
-        
-        private JButton vBotonFojas1;
-        private JButton vBotonFojas2;
-        private JButton vBotonFojas3;
-        
-        private JPanel vPCentro5;
-        
-        private JButton vBotonCP1;
-        private JButton vBotonCP2;
+    private JPanel sBotones;
     
+        private JButton sBot1;
+        private JButton sBot2;
+        private JButton sBot3;
+        private JButton sBot4;
+        private JButton sBot5;
+        
     private Sistema vSis;
     
     //--------------------------------------------------------------------------
@@ -50,74 +43,76 @@ public class VistaMenuPrincipal extends JFrame {
     
     public void IniciarVista(){
         
-        vPCentro = new JPanel();
-        vPCentro.setLayout(new GridLayout(5, 1, 5, 5));
+        //NORTE
+        sRotulo = new JPanel();
+        sRotulo.setLayout(new GridLayout(2, 1));
+        sRotulo.setBorder(new EmptyBorder(10,10,10,10));
+        
+            sTitulo = new JLabel("TPI", SwingConstants.CENTER);
+            sTitulo.setFont(new Font("Cambria Math", Font.BOLD, 50));
+            
+            sNombre = new JLabel("Programacion avanzada I", SwingConstants.CENTER);
+            sNombre.setFont(new Font("Cambria Math", Font.BOLD, 20));
+            
+            sRotulo.add(sTitulo);
+            sRotulo.add(sNombre);
+            
+            this.add(sRotulo, BorderLayout.NORTH);
         
         
-            vBotonEmpresas = new JButton("Ver empresas");
-            vBotonFinanciaciones = new JButton("Ver financiaciones");
+        //SUR
+        sBotones = new JPanel();
+        sBotones.setLayout(new GridLayout(5, 1, 10, 10));
+        sBotones.setBorder(new EmptyBorder(10,10,10,10));
+        
+            sBot1 = new JButton("Ver Empresas");
+            sBot1.setFont(new Font("Cambria Math", Font.BOLD, 20));
+            sBot2 = new JButton("Ver Financiaciones");
+            sBot2.setFont(new Font("Cambria Math", Font.BOLD, 20));
+            sBot3 = new JButton("Ver Obras");
+            sBot3.setFont(new Font("Cambria Math", Font.BOLD, 20));
+            sBot4 = new JButton("Ver Fojas de medicion");
+            sBot4.setFont(new Font("Cambria Math", Font.BOLD, 20));
+            sBot5 = new JButton("Ver Certificados de pago");
+            sBot5.setFont(new Font("Cambria Math", Font.BOLD, 20));
 
-            vPCentro.add(vBotonEmpresas);
-            vPCentro.add(vBotonFinanciaciones);
-        
-            vPCentro3 = new JPanel();
-            vPCentro3.setLayout(new GridLayout(1, 2, 5, 5));
+            sBotones.add(sBot1);
+            sBotones.add(sBot2);
+            sBotones.add(sBot3);
+            sBotones.add(sBot4);
+            sBotones.add(sBot5);
             
-            vBotonObras1 = new JButton("Ver obras");
-            vBotonObras2 = new JButton("Crear nueva obra");
+            this.add(sBotones, BorderLayout.SOUTH);
             
-            vPCentro3.add(vBotonObras1);
-            vPCentro3.add(vBotonObras2);
-            
-            vPCentro.add(vPCentro3);
-            
-            vPCentro4 = new JPanel();
-            vPCentro4.setLayout(new GridLayout(1, 3, 5, 5));
-            
-            vBotonFojas1 = new JButton("Ver fojas de medicion");
-            vBotonFojas2 = new JButton("Crear nueva foja de medicion");
-            vBotonFojas3 = new JButton("Actualizar foja de medicion");
-            
-            vPCentro4.add(vBotonFojas1);
-            vPCentro4.add(vBotonFojas2);
-            vPCentro4.add(vBotonFojas3);
-            
-            vPCentro.add(vPCentro4);
-            
-            vPCentro5 = new JPanel();
-            vPCentro5.setLayout(new GridLayout(1, 2, 5, 5));
-            
-            vBotonCP1 = new JButton("Ver certificados de pago");
-            vBotonCP2 = new JButton("Crear nuevo certificado de pago");
-            
-            vPCentro5.add(vBotonCP1);
-            vPCentro5.add(vBotonCP2);
-            
-            vPCentro.add(vPCentro5);
-            
-        this.add(vPCentro, BorderLayout.CENTER);        
-        
-        //----------------------------------------------------------------------
-        
         
         //----------------------------------------------------------------------
         
         setTitle("Menu principal");
-        setSize(600,400);
+        setSize(300,400);
+        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
         
         //----------------------------------------------------------------------
         
-        this.vBotonEmpresas.addActionListener((ActionEvent evt) -> {
+        this.sBot1.addActionListener((ActionEvent evt) -> {
             vSis.AbrirVistaEmpresas();
         });
         
-        this.vBotonFinanciaciones.addActionListener((ActionEvent evt) -> {
+        this.sBot2.addActionListener((ActionEvent evt) -> {
             vSis.AbrirVistaFinanciaciones();
         });
         
-        this.vBotonObras1.addActionListener((ActionEvent evt) -> {
+        this.sBot3.addActionListener((ActionEvent evt) -> {
             vSis.AbrirVistaObras1();
+        });
+        
+        this.sBot4.addActionListener((ActionEvent evt) -> {
+            vSis.AbrirVistaFojas1();
+        });
+        
+        this.sBot5.addActionListener((ActionEvent evt) -> {
+            vSis.AbrirVistaCertificados1();
         });
         
     }

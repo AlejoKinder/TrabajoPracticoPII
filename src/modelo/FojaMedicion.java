@@ -52,10 +52,11 @@ public class FojaMedicion {
         for (Item a: this.vObra.getvItems()){
             
             RenglonFoja vNuevoRenglon = null;
+            
             if (vUltimaFoja == null){
                 vNuevoRenglon = new RenglonFoja (this.vRenglones.size()+1, 0, a);
             }else{
-                vNuevoRenglon = new RenglonFoja (this.vRenglones.size()+1, this.DevolverAvanceAnterior(a), a);
+                vNuevoRenglon = new RenglonFoja (this.vRenglones.size()+1, vUltimaFoja.DevolverAvanceAnterior(a), a);
             }
             
             this.vRenglones.add(vNuevoRenglon);

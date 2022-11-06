@@ -116,6 +116,8 @@ public class VistaFinanciaciones extends JFrame {
         setTitle("Financiaciones");
         setSize(600,400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        this.setLocationRelativeTo(null);
         
         //----------------------------------------------------------------------
         

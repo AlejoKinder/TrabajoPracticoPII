@@ -15,6 +15,7 @@ public class CertificadoPago {
     private Integer vIdCertificado;
     private Double vCostoTotal;
     private String vFechaEmision;
+    private Boolean vPagado;
     private Obra vObra;
     private FojaMedicion vFoja;
     private ArrayList<RenglonCertificado> vRenglones = new ArrayList(); 
@@ -23,6 +24,7 @@ public class CertificadoPago {
         this.vIdCertificado = vIdCertificado;
         this.vCostoTotal = (double)0;
         this.vFechaEmision = vFechaEmision;
+        this.vPagado = false;
         this.vObra = vObra;
         this.vFoja = vFoja;
     }
@@ -38,7 +40,11 @@ public class CertificadoPago {
     public String getvFechaEmision() {
         return vFechaEmision;
     }
-
+    
+    public boolean getvPagado(){
+        return vPagado;
+    }
+    
     public Obra getvObra() {
         return vObra;
     }
@@ -83,5 +89,8 @@ public class CertificadoPago {
         return vMonto;
     }
     
+    public void Pagar(){
+        this.vPagado = true;
+    }
     
 }

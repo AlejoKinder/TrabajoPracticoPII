@@ -115,6 +115,8 @@ public final class VistaEmpresas extends JFrame {
         setTitle("Empresas");
         setSize(600,400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        this.setLocationRelativeTo(null);
         
         //----------------------------------------------------------------------
         

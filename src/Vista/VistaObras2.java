@@ -24,6 +24,7 @@ public class VistaObras2 extends JFrame {
         
         private JPanel vPNorte2;
         private JTextField vIdObra;
+        private JComboBox vObras;
         private JButton vBotonBuscarItems;
         
         private JLabel vTexto2;
@@ -62,7 +63,7 @@ public class VistaObras2 extends JFrame {
     
     public VistaObras2 (Sistema vSis){
         this.vSis = vSis;
-        this.IniciarVista();
+        IniciarVista();
     }
     
     public void IniciarVista(){
@@ -74,7 +75,9 @@ public class VistaObras2 extends JFrame {
             vPNorte.add(vTexto1);
         
             vPNorte2 = new JPanel();
-            vPNorte2.setLayout(new GridLayout(1, 2));
+            vPNorte2.setLayout(new GridLayout(1, 3));
+            
+                vObras = new JComboBox();
             
                 vIdObra = new JTextField(10);
                 vPNorte2.add(vIdObra);
@@ -155,6 +158,8 @@ public class VistaObras2 extends JFrame {
         setTitle("Obras");
         setSize(600,400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        this.setLocationRelativeTo(null);
         
         //----------------------------------------------------------------------
         
@@ -163,7 +168,7 @@ public class VistaObras2 extends JFrame {
         });
         
         this.vBotonAtras.addActionListener((ActionEvent evt) -> {
-            vSis.AbrirVistaMenuPrincipal();
+            vSis.AbrirVistaObras1();
         });
         
         this.vBotonInfo.addActionListener((ActionEvent evt) -> {

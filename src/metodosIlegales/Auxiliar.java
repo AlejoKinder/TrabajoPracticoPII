@@ -92,8 +92,12 @@ public class Auxiliar {
         }
     }
     
-    public Integer toInteger (String str){
-        Integer number = Integer.valueOf(str);
+    public Integer toInteger (String input){
+        System.out.println("Viejo texto entero: " + input);
+        input = input.replace(".", "");
+        System.out.println("Nuevo texto entero: " + input);
+        
+        Integer number = Integer.valueOf(input);
         return number;
     }
     
@@ -107,7 +111,28 @@ public class Auxiliar {
     }
     
     public Double toDouble (String input){
+        System.out.println("Viejo texto double: " + input);
+        input = input.replace(",", ".");
+        
+        while(input.lastIndexOf(".") != input.indexOf(".")){
+            input = input.replaceFirst("\\.", "");
+        }
+        input = input.concat("d");
+        
+        System.out.println("Nuevo texto double: " + input);
+        
         Double numero = Double.parseDouble(input);
+        return numero;
+    }
+    
+    public Float toFloat (String input){
+        System.out.println("Viejo texto float: " + input);
+        input = input.replace(",", ".");
+        input = input.concat("f");
+        
+        System.out.println("Nuevo texto float: " + input);
+        
+        Float numero = Float.parseFloat(input);
         return numero;
     }
     

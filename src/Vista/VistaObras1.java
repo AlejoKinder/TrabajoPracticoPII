@@ -96,6 +96,8 @@ public class VistaObras1 extends JFrame {
         setTitle("Obras");
         setSize(600,400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        this.setLocationRelativeTo(null);
         
         //----------------------------------------------------------------------
         
@@ -104,7 +106,7 @@ public class VistaObras1 extends JFrame {
         });
         
         this.vBotonCrear.addActionListener((ActionEvent evt) -> {
-            this.CrearObra();
+            vSis.AbrirVistaObras3();
         });
         
         this.vBotonItems.addActionListener((ActionEvent evt) -> {
@@ -112,7 +114,7 @@ public class VistaObras1 extends JFrame {
         });
         
         this.vBotonAtras.addActionListener((ActionEvent evt) -> {
-            this.VolverAtras();
+            vSis.AbrirVistaMenuPrincipal();
         });
         
     }
@@ -159,14 +161,6 @@ public class VistaObras1 extends JFrame {
         ActualizarTabla1();
         this.vTablaRotada = false;
     }
-    
-    private void CrearObra(){
-        
-    }
-    
-    private void VolverAtras(){
-        
-        vSis.AbrirVistaMenuPrincipal();
-    }
+
     
 }
